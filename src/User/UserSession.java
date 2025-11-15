@@ -8,14 +8,11 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import DatabaseConnection.*;
-import UI.Login;
 import User.SessionManager;
-
-
 
 public class UserSession {
     
-    public static void checkLogin(String username, String password){
+    public static boolean checkLogin(String username, String password){
         
         try (Connection connection = DBConnection.getConnection();){
             
@@ -32,20 +29,27 @@ public class UserSession {
                 
                 //Account matched
                 System.out.println("Account matched...");
+                return true;
                 
             } else {
                 
                 //Account does not match
                 String errorMessage = "Incorrect username or password, please try again.";
                 JOptionPane.showMessageDialog(null, errorMessage, "Login Error", JOptionPane.ERROR_MESSAGE);
+                return false;
                 
             }
-            
-            
             
         } catch (SQLException e) {
             System.out.println("Error on database method(checkLogin): " + e);
         }
+        
+        return false;
+    }
+    
+    public static void logOut(){
+        
+        SessionManager.clearSession();
         
     }
 

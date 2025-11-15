@@ -1,5 +1,7 @@
 package UI;
 
+import User.UserSession;
+
 /**
  * @author Mellisa
  */
@@ -30,7 +32,7 @@ public class Login extends javax.swing.JFrame {
         lEmail = new javax.swing.JLabel();
         lDontHaveAccount = new javax.swing.JLabel();
         lCreateAccount = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnLogin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login Page");
@@ -164,12 +166,17 @@ public class Login extends javax.swing.JFrame {
         center.add(lCreateAccount);
         lCreateAccount.setBounds(320, 290, 160, 22);
 
-        jButton1.setBackground(new java.awt.Color(102, 102, 102));
-        jButton1.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Login");
-        center.add(jButton1);
-        jButton1.setBounds(206, 235, 166, 41);
+        btnLogin.setBackground(new java.awt.Color(102, 102, 102));
+        btnLogin.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        btnLogin.setForeground(new java.awt.Color(255, 255, 255));
+        btnLogin.setText("Login");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+        center.add(btnLogin);
+        btnLogin.setBounds(206, 235, 166, 41);
 
         javax.swing.GroupLayout background_panelLayout = new javax.swing.GroupLayout(background_panel);
         background_panel.setLayout(background_panelLayout);
@@ -231,6 +238,21 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSeePasswordItemStateChanged
 
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+      
+        String username = tfUsername.getText();
+        String password = tfPassword.getText();
+        
+        boolean isValid = UserSession.checkLogin(username, password);
+        
+        if (isValid) {
+            
+            //go to home
+            
+        }
+        
+    }//GEN-LAST:event_btnLoginActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -259,9 +281,9 @@ public class Login extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background_panel;
     private javax.swing.JPanel bottom;
+    private javax.swing.JButton btnLogin;
     private javax.swing.JRadioButton btnSeePassword;
     private javax.swing.JPanel center;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lCreateAccount;
     private javax.swing.JLabel lDontHaveAccount;
     private javax.swing.JLabel lEmail;
