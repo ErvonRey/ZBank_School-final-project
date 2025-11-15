@@ -50,7 +50,7 @@ public class Function {
             
         )   {
         
-         autoIncrementID();
+        autoIncrementID();
         
         try (Connection conn = DBConnection.getConnection();)
             
