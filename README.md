@@ -1,6 +1,6 @@
 # OOP_FinalSystem
 
-Mini Banking System
+The Mini Banking System or ZBank
 
 The Mini Banking System is a Java-based application designed to simulate the core operations of a real-world digital banking platform.
 It utilizes MySQL as its database backend and follows structured programming and OOP principles to ensure clarity, maintainability, and scalability.
