@@ -1,7 +1,7 @@
 package Core;
 
 //import here:
-import UI.Login;
+
 import User.SessionManager;
 import User.ManageUser;
 import java.sql.Connection;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import DatabaseConnection.*;
-
+import UI.Login;
 
 public class Function {
     
