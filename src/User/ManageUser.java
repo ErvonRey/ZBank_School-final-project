@@ -12,6 +12,7 @@ package User;
 public class ManageUser {
     
     private static int userID;
+    private static int balID;
     
     public static void setCurrentUserID(int tempUserID){
         userID = tempUserID;
@@ -19,6 +20,14 @@ public class ManageUser {
     
     public static int getCurrentUserID(){
         return userID;
+    }
+    
+    public static void setCurrentBalID(int tempBalID){
+        balID = tempBalID;
+    }
+    
+    public static int getCurrentBalID(){
+        return balID;
     }
     
 }

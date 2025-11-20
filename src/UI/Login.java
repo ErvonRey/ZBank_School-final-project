@@ -170,6 +170,7 @@ public class Login extends javax.swing.JFrame {
         btnLogin.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         btnLogin.setForeground(new java.awt.Color(255, 255, 255));
         btnLogin.setText("Login");
+        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
@@ -243,9 +244,9 @@ public class Login extends javax.swing.JFrame {
         String username = tfUsername.getText();
         String password = tfPassword.getText();
         
-        boolean isValid = UserSession.checkLogin(username, password);
+        boolean isLoginValid = UserSession.checkLogin(username, password);
         
-        if (isValid) {
+        if (isLoginValid) {
             
             //go to home
             

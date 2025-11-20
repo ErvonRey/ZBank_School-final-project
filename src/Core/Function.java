@@ -15,7 +15,7 @@ import UI.Login;
 
 public class Function {
     
-    public static void autoIncrementID() {
+    public static void autoIncrementUserID() {
         
         try (Connection connection = DBConnection.getConnection()) {
             
@@ -38,7 +38,34 @@ public class Function {
                 
             }
         } catch (SQLException e) {
-            System.out.println("Error on database method(autoIncrement): " + e.getMessage());
+            System.out.println("Error on database method(autoIncrement userID): " + e.getMessage());
+        }
+    }
+    
+    public static void autoIncrementBalanceID() {
+        
+        try (Connection connection = DBConnection.getConnection()) {
+            
+            PreparedStatement ps = connection.prepareStatement("SELECT bal_id FROM users_balance ORDER BY bal_id DESC LIMIT 1");
+            
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                
+                int ID = rs.getInt("bal_id");
+                int n = ID + 1;
+                ManageUser.setCurrentBalID(n);
+                //encapsulation here
+                
+            } else {
+                
+                ManageUser.setCurrentBalID(1);
+                //encapsulation here
+                //sets up the default lowest id value to 1
+                
+            }
+        } catch (SQLException e) {
+            System.out.println("Error on database method(autoIncrement balID): " + e.getMessage());
         }
     }
 
@@ -50,7 +77,8 @@ public class Function {
             
         )   {
         
-        autoIncrementID();
+        autoIncrementUserID();
+        autoIncrementBalanceID();
         
         try (Connection conn = DBConnection.getConnection();)
             
@@ -60,8 +88,8 @@ public class Function {
             String SQLCreatingAccount = "INSERT INTO bank_users("
                 + "user_id, user_username, user_email, user_password, user_phone_number,"
                 + "user_first_name, user_middle_name, user_last_name, user_name_extension,"
-                + "user_birthdate, user_purok_street, user_municipal_city, user_region, user_status)"
-                + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                + "user_birthdate, user_purok_street, user_municipal_city, user_region, user_status, date_created)"
+                + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?, NOW())";
             
             PreparedStatement creatingAccount = conn.prepareStatement(SQLCreatingAccount);
             
@@ -87,15 +115,17 @@ public class Function {
             creatingAccount.executeUpdate();
             
             //creating a row and linking it to the current account creator
-            String SQLCreatingBalance = "INSERT INTO user_balance (user_id) VALUES (?)";
+            String SQLCreatingBalance = "INSERT INTO users_balance (bal_id ,user_id) VALUES (?, ?)";
             
             PreparedStatement creatingBalance = conn.prepareStatement(SQLCreatingBalance);
             
-            creatingBalance.setString(1, Integer.toString(ManageUser.getCurrentUserID()));
+            creatingBalance.setString(1, Integer.toString(ManageUser.getCurrentBalID()));
+            creatingBalance.setString(2, Integer.toString(ManageUser.getCurrentUserID()));
             
             creatingBalance.executeUpdate();
             
 //            System.out.println("Successful!");
+            JOptionPane.showMessageDialog(null, "Successfully created a new account!");
             
             
         } catch (SQLException e) {

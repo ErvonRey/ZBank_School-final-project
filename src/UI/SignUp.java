@@ -1,5 +1,11 @@
 package UI;
 
+import Core.Function;
+import javax.swing.JOptionPane;
+
+import User.*;
+import java.awt.Color;
+
 public class SignUp extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SignUp.class.getName());
@@ -7,8 +13,6 @@ public class SignUp extends javax.swing.JFrame {
     public SignUp() {
         initComponents();
     }
-
-    
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -33,8 +37,6 @@ public class SignUp extends javax.swing.JFrame {
         lDay = new javax.swing.JLabel();
         lYear = new javax.swing.JLabel();
         cbMonth = new javax.swing.JComboBox<>();
-        tfYear = new javax.swing.JTextField();
-        tfDay = new javax.swing.JTextField();
         lAddress = new javax.swing.JLabel();
         tfPurStr = new javax.swing.JTextField();
         tfMunCit = new javax.swing.JTextField();
@@ -53,6 +55,9 @@ public class SignUp extends javax.swing.JFrame {
         lAlreadyHaveAnAccount = new javax.swing.JLabel();
         lSignIn = new javax.swing.JLabel();
         btnCreateAccount = new javax.swing.JButton();
+        cbDay = new javax.swing.JComboBox<>();
+        cbYear = new javax.swing.JComboBox<>();
+        lErrorMessage = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sign Up");
@@ -82,6 +87,14 @@ public class SignUp extends javax.swing.JFrame {
         tfUsername.setBackground(new java.awt.Color(102, 102, 102));
         tfUsername.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         tfUsername.setForeground(new java.awt.Color(255, 255, 255));
+        tfUsername.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tfUsernameMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                tfUsernameMouseEntered(evt);
+            }
+        });
 
         lPassword.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         lPassword.setForeground(new java.awt.Color(255, 255, 255));
@@ -134,15 +147,7 @@ public class SignUp extends javax.swing.JFrame {
         cbMonth.setBackground(new java.awt.Color(102, 102, 102));
         cbMonth.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
         cbMonth.setForeground(new java.awt.Color(255, 255, 255));
-        cbMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Month", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" }));
-
-        tfYear.setBackground(new java.awt.Color(102, 102, 102));
-        tfYear.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        tfYear.setForeground(new java.awt.Color(255, 255, 255));
-
-        tfDay.setBackground(new java.awt.Color(102, 102, 102));
-        tfDay.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
-        tfDay.setForeground(new java.awt.Color(255, 255, 255));
+        cbMonth.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Month", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12" }));
 
         lAddress.setFont(new java.awt.Font("Consolas", 1, 24)); // NOI18N
         lAddress.setForeground(new java.awt.Color(204, 255, 255));
@@ -242,6 +247,24 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
 
+        cbDay.setBackground(new java.awt.Color(102, 102, 102));
+        cbDay.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        cbDay.setForeground(new java.awt.Color(255, 255, 255));
+        cbDay.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Day", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" }));
+
+        cbYear.setBackground(new java.awt.Color(102, 102, 102));
+        cbYear.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        cbYear.setForeground(new java.awt.Color(255, 255, 255));
+        cbYear.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Year", "2026", "2025", "2024", "2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002", "2001", "2000", "1999", "1998", "1997", "1996", "1995", "1994", "1993", "1992", "1991", "1990", "1989", "1988", "1987", "1986", "1985", "1984", "1983", "1982", "1981", "1980", "1979", "1978", "1977", "1976", "1975", "1974", "1973", "1972", "1971", "1970", "1969", "1968", "1967", "1966", "1965", "1964", "1963", "1962", "1961", "1960", "1959", "1958", "1957", "1956", "1955", "1954", "1953", "1952", "1951", "1950", "1949", "1948", "1947", "1946", "1945", "1944", "1943", "1942", "1941", "1940", "1939", "1938", "1937", "1936", "1935", "1934", "1933", "1932", "1931", "1930", "1929", "1928", "1927", "1926", "1925", "1924", "1923", "1922", "1921", "1920", "1919", "1918", "1917", "1916", "1915", "1914", "1913", "1912", "1911", "1910", "1909", "1908", "1907", "1906", "1905", "1904", "1903", "1902", "1901" }));
+
+        lErrorMessage.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        lErrorMessage.setForeground(new java.awt.Color(255, 255, 255));
+        lErrorMessage.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lErrorMessageMouseExited(evt);
+            }
+        });
+
         javax.swing.GroupLayout background_panelLayout = new javax.swing.GroupLayout(background_panel);
         background_panel.setLayout(background_panelLayout);
         background_panelLayout.setHorizontalGroup(
@@ -253,19 +276,24 @@ public class SignUp extends javax.swing.JFrame {
                     .addGroup(background_panelLayout.createSequentialGroup()
                         .addGap(35, 35, 35)
                         .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lMonth)
-                            .addComponent(lDay, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lYear, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cbMonth, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tfDay)
-                            .addComponent(tfYear))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lRegion)
-                            .addComponent(lPurokStreet)
-                            .addComponent(lMunicipalityCity))
+                            .addGroup(background_panelLayout.createSequentialGroup()
+                                .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lMonth)
+                                    .addComponent(lDay, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lYear, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cbMonth, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cbYear, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cbDay, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(lRegion)
+                                    .addComponent(lPurokStreet)
+                                    .addComponent(lMunicipalityCity)))
+                            .addGroup(background_panelLayout.createSequentialGroup()
+                                .addComponent(lErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(tfRegion, javax.swing.GroupLayout.PREFERRED_SIZE, 326, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -289,10 +317,10 @@ public class SignUp extends javax.swing.JFrame {
                                         .addComponent(tfEmail, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(tfUsername, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(background_panelLayout.createSequentialGroup()
-                                .addGap(81, 81, 81)
+                                .addGap(208, 208, 208)
                                 .addComponent(lAccount))
                             .addGroup(background_panelLayout.createSequentialGroup()
-                                .addGap(78, 78, 78)
+                                .addGap(125, 125, 125)
                                 .addComponent(lBirthday)))
                         .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(background_panelLayout.createSequentialGroup()
@@ -309,16 +337,18 @@ public class SignUp extends javax.swing.JFrame {
                                             .addComponent(tfMiddleName, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(tfLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background_panelLayout.createSequentialGroup()
-                                        .addComponent(lProfile)
-                                        .addGap(208, 208, 208))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background_panelLayout.createSequentialGroup()
                                         .addComponent(lNameExtension)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(tfNameExtension, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background_panelLayout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lAddress)
-                                .addGap(208, 208, 208)))))
+                                .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background_panelLayout.createSequentialGroup()
+                                        .addComponent(lProfile)
+                                        .addGap(70, 70, 70))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, background_panelLayout.createSequentialGroup()
+                                        .addComponent(lAddress)
+                                        .addGap(120, 120, 120)))))))
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         background_panelLayout.setVerticalGroup(
@@ -364,23 +394,11 @@ public class SignUp extends javax.swing.JFrame {
                             .addComponent(lNameExtension)
                             .addComponent(tfNameExtension, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(31, 31, 31)
-                .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(background_panelLayout.createSequentialGroup()
-                        .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lAddress, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lBirthday))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lMonth)
-                            .addComponent(cbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lDay)
-                            .addComponent(tfDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lYear)
-                            .addComponent(tfYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lAddress)
+                    .addComponent(lBirthday))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(background_panelLayout.createSequentialGroup()
                         .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tfPurStr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -392,10 +410,24 @@ public class SignUp extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tfRegion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lRegion))))
+                            .addComponent(lRegion)))
+                    .addGroup(background_panelLayout.createSequentialGroup()
+                        .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lMonth)
+                            .addComponent(cbMonth, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lDay)
+                            .addComponent(cbDay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lYear)
+                            .addComponent(cbYear, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
-                .addComponent(btnCreateAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addGroup(background_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnCreateAccount, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(96, 96, 96))
         );
 
         getContentPane().add(background_panel);
@@ -414,19 +446,181 @@ public class SignUp extends javax.swing.JFrame {
     }//GEN-LAST:event_lSignInMouseExited
 
     private void lSignInMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lSignInMousePressed
+        
         Login login = new Login();
         login.setVisible(true);
         this.dispose();
+        
     }//GEN-LAST:event_lSignInMousePressed
 
     private void btnCreateAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateAccountActionPerformed
         
-        //check the validity of the fields first before creating account
-//        Function.addAccount(username, email, password, phoneNumber, firstName, middleName, lastName, nameExtension, monh, WIDTH, ERROR, PurStr, MunCit, Region);
+        String username = tfUsername.getText().trim();
+        String email = tfEmail.getText().trim();
+        String password = tfPassword.getText().trim();
+        String phoneNumber = tfPhoneNumber.getText().trim();
+        String firstName = tfFirstName.getText().trim();
+        String middleName = tfMiddleName.getText().trim();
+        String lastName = tfLastName.getText().trim();
+        String nameExtension = tfNameExtension.getText().trim();
+         
+        //birthdate:
+        if (!isBirthdateValid()){
+            return;
+        }
         
+        int month = Integer.parseInt(cbMonth.getSelectedItem().toString().trim());
+        int day = Integer.parseInt(cbDay.getSelectedItem().toString().trim());
+        int year = Integer.parseInt(cbYear.getSelectedItem().toString().trim());
+        
+        String PurStr = tfPurStr.getText().trim();
+        String MunCit = tfMunCit.getText().trim();
+        String region = tfRegion.getText().trim();
+        
+        if (isAccountValid()) {
+            
+            
+            Function.addAccount(
+                    
+                    username, email, password, phoneNumber,
+                    firstName, middleName, lastName, nameExtension,
+                    month, day, year, PurStr, MunCit, region);
+            
+            Login login = new Login();
+            login.setVisible(true);
+            this.dispose();
+            
+        }    
         
     }//GEN-LAST:event_btnCreateAccountActionPerformed
 
+    private void tfUsernameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfUsernameMouseEntered
+        checkingUsername();
+    }//GEN-LAST:event_tfUsernameMouseEntered
+
+    private void lErrorMessageMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lErrorMessageMouseExited
+        //dont use this, it might flood the workbench
+    }//GEN-LAST:event_lErrorMessageMouseExited
+
+    private void tfUsernameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfUsernameMouseClicked
+        //dont use this, it might flood the workbench
+    }//GEN-LAST:event_tfUsernameMouseClicked
+
+    private boolean isBirthdateValid(){
+        
+        if (
+                        cbMonth.getSelectedIndex() == 0 ||
+                        cbDay.getSelectedIndex() == 0 ||
+                        cbYear.getSelectedIndex() == 0
+
+                        ) {
+            
+            String errorMessage = "Please enter your birthdate.";
+            
+            JOptionPane.showMessageDialog(null, errorMessage, "Creating account validation", JOptionPane.ERROR_MESSAGE);
+            
+            return false;
+        }
+        
+        return true;
+    }
+    
+    private boolean isAccountValid(){
+        
+        if (isPasswordValid() == false){
+            return false;
+        }
+        
+        if (UserSession.isUsernameDuplicated(tfUsername.getText())){
+            return false;
+        }
+        
+        if (
+                tfUsername.getText().trim().isEmpty() || tfEmail.getText().trim().isEmpty() ||
+                tfPassword.getText().trim().isEmpty() || tfFirstName.getText().trim().isEmpty() ||
+                tfLastName.getText().trim().isEmpty() || tfPurStr.getText().trim().isEmpty() ||
+                tfMunCit.getText().trim().isEmpty() || tfRegion.getText().trim().isEmpty()
+                
+                ) {
+            
+            String errorMessage = "Please do not leave important fields empty.\n\n"
+                    + "Optional Fields are;\n"
+                    + "Middle Name\n"
+                    + "Name Extension";
+            
+            JOptionPane.showMessageDialog(null, errorMessage, "Creating account validation", JOptionPane.ERROR_MESSAGE);
+            
+            return false;
+            
+        }
+        
+        if (
+                cbMonth.getSelectedIndex() == 0 ||
+                cbDay.getSelectedIndex() == 0 ||
+                cbYear.getSelectedIndex() == 0
+                
+                ) {
+            
+            String errorMessage = "Please enter your birthdate.";
+            
+            JOptionPane.showMessageDialog(null, errorMessage, "Creating account validation", JOptionPane.ERROR_MESSAGE);
+            
+            return false;
+            
+        }
+        
+        return true;
+    }
+    
+    private boolean isPasswordValid(){
+        
+        String password = tfPassword.getText().trim();
+        
+        if (password.length() <= 8) {
+            
+            String errorMessage = "Error: Password must be greater than 8 characters.";
+            JOptionPane.showMessageDialog(null, errorMessage, "Password validation", JOptionPane.ERROR_MESSAGE);
+            return false;
+            
+        } else if (!password.matches(".*[A-Z].*")){  //one capital
+                
+            String errorMessage = "Error: Password must contain at least one capital letter.";
+            JOptionPane.showMessageDialog(rootPane, errorMessage, "Password validation", JOptionPane.ERROR_MESSAGE);
+            return false;
+                
+        } else if (!password.matches(".*[0-9].*")){  //one number
+                
+            String errorMessage = "Error: Password must contain at least one number.";
+            JOptionPane.showMessageDialog(rootPane, errorMessage, "Password validation", JOptionPane.ERROR_MESSAGE);
+            return false;
+                
+        }else if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")){ //one symbol
+                
+            String errorMessage = "Error: Password must contain at least one symbol.";
+            JOptionPane.showMessageDialog(rootPane, errorMessage, "Password validation", JOptionPane.ERROR_MESSAGE);
+            return false;    
+            
+        }
+        
+        return true;
+    }
+    
+    public void checkingUsername() {
+        
+        boolean duplicatedUsername = UserSession.isUsernameDuplicated(tfUsername.getText().trim());
+        
+        if (tfUsername.getText().trim().isEmpty()) {
+            lErrorMessage.setText("");
+        }else if (duplicatedUsername){
+            lErrorMessage.setForeground(Color.red);
+            lErrorMessage.setText("Username is already taken");
+        } else {
+            lErrorMessage.setForeground(Color.green);
+            lErrorMessage.setText("Username is avaiable");
+        }
+        
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -452,13 +646,16 @@ public class SignUp extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background_panel;
     private javax.swing.JButton btnCreateAccount;
+    private javax.swing.JComboBox<String> cbDay;
     private javax.swing.JComboBox<String> cbMonth;
+    private javax.swing.JComboBox<String> cbYear;
     private javax.swing.JLabel lAccount;
     private javax.swing.JLabel lAddress;
     private javax.swing.JLabel lAlreadyHaveAnAccount;
     private javax.swing.JLabel lBirthday;
     private javax.swing.JLabel lDay;
     private javax.swing.JLabel lEmail;
+    private javax.swing.JLabel lErrorMessage;
     private javax.swing.JLabel lFirstName;
     private javax.swing.JLabel lLastName;
     private javax.swing.JLabel lMiddleName;
@@ -475,7 +672,6 @@ public class SignUp extends javax.swing.JFrame {
     private javax.swing.JLabel lWelcome;
     private javax.swing.JLabel lWelcome3;
     private javax.swing.JLabel lYear;
-    private javax.swing.JTextField tfDay;
     private javax.swing.JTextField tfEmail;
     private javax.swing.JTextField tfFirstName;
     private javax.swing.JTextField tfLastName;
@@ -487,7 +683,6 @@ public class SignUp extends javax.swing.JFrame {
     private javax.swing.JTextField tfPurStr;
     private javax.swing.JTextField tfRegion;
     private javax.swing.JTextField tfUsername;
-    private javax.swing.JTextField tfYear;
     private javax.swing.JPanel top;
     // End of variables declaration//GEN-END:variables
 }

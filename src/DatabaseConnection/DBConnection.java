@@ -1,6 +1,6 @@
 package DatabaseConnection;
 
-//Coded By: Ervon Rey Mellisa a BSIT 2A student at DSSC
+//Coded by a BSIT 2A student at DSSC
 
 import java.sql.Connection;
 import java.sql.DriverManager;

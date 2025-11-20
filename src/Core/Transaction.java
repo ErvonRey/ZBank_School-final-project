@@ -12,7 +12,7 @@ import User.SessionManager;
 
 public class Transaction {
     
-    public static double getBalance(int ID){
+    public static double getBalanceFrom(int ID){
         
         try (Connection connection = DBConnection.getConnection();) {
             
@@ -44,7 +44,7 @@ public class Transaction {
 
     public static void sendMoney(double amount, int ID){
         
-        double currentBalance = getBalance(SessionManager.getUserID());
+        double currentBalance = getBalanceFrom(SessionManager.getUserID());
         
         if (amount > currentBalance){
             JOptionPane.showMessageDialog(null, "Failed to send. Not enough balance!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
@@ -118,7 +118,7 @@ public class Transaction {
     
     public static void sendMoney(double amount, String username){
         
-        double currentBalance = getBalance(SessionManager.getUserID());
+        double currentBalance = getBalanceFrom(SessionManager.getUserID());
         
         if (amount > currentBalance){
             JOptionPane.showMessageDialog(null, "Failed to send. Not enough balance!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
@@ -192,7 +192,7 @@ public class Transaction {
     
     public static void withdrawCash(double amount){
         
-        double currentBalance = getBalance(SessionManager.getUserID());
+        double currentBalance = getBalanceFrom(SessionManager.getUserID());
         
         if (amount > currentBalance){
             JOptionPane.showMessageDialog(null, "Failed to withdraw. Not enough balance!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
@@ -246,7 +246,7 @@ public class Transaction {
     
     public static void investMoney(double amount){
         
-        double currentBalance = getBalance(SessionManager.getUserID());
+        double currentBalance = getBalanceFrom(SessionManager.getUserID());
         
         if (amount > currentBalance){
             JOptionPane.showMessageDialog(null, "Failed to invest. Not enough balance!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
