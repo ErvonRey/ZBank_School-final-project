@@ -35,7 +35,7 @@ public class Login extends javax.swing.JFrame {
         btnLogin = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Login Page");
+        setTitle("Login");
         setMaximumSize(new java.awt.Dimension(800, 500));
         setMinimumSize(new java.awt.Dimension(800, 500));
         setPreferredSize(new java.awt.Dimension(800, 500));
@@ -249,6 +249,9 @@ public class Login extends javax.swing.JFrame {
         if (isLoginValid) {
             
             //go to home
+            Home home = new Home();
+            home.setVisible(true);
+            this.dispose();
             
         }
         

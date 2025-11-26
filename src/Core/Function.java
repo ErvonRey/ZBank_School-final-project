@@ -1,8 +1,6 @@
 package Core;
 
 //import here:
-
-import User.SessionManager;
 import User.ManageUser;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import DatabaseConnection.*;
 import UI.Login;
+import java.util.Date;
 
 public class Function {
     
@@ -27,12 +26,12 @@ public class Function {
                 
                 int ID = rs.getInt("user_id");
                 int n = ID + 1;
-                ManageUser.setCurrentUserID(n);
+                ManageUser.setUserID(n);
                 //encapsulation here
                 
             } else {
                 
-                ManageUser.setCurrentUserID(1000);
+                ManageUser.setUserID(1000);
                 //encapsulation here
                 //sets up the default lowest id value to 1000
                 
@@ -54,12 +53,12 @@ public class Function {
                 
                 int ID = rs.getInt("bal_id");
                 int n = ID + 1;
-                ManageUser.setCurrentBalID(n);
+                ManageUser.setBalID(n);
                 //encapsulation here
                 
             } else {
                 
-                ManageUser.setCurrentBalID(1);
+                ManageUser.setBalID(1);
                 //encapsulation here
                 //sets up the default lowest id value to 1
                 
@@ -93,7 +92,7 @@ public class Function {
             
             PreparedStatement creatingAccount = conn.prepareStatement(SQLCreatingAccount);
             
-            creatingAccount.setString(1, Integer.toString(ManageUser.getCurrentUserID()));
+            creatingAccount.setString(1, Integer.toString(ManageUser.getUserID()));
             creatingAccount.setString(2, username);
             creatingAccount.setString(3, email);
             creatingAccount.setString(4, password);
@@ -119,8 +118,8 @@ public class Function {
             
             PreparedStatement creatingBalance = conn.prepareStatement(SQLCreatingBalance);
             
-            creatingBalance.setString(1, Integer.toString(ManageUser.getCurrentBalID()));
-            creatingBalance.setString(2, Integer.toString(ManageUser.getCurrentUserID()));
+            creatingBalance.setString(1, Integer.toString(ManageUser.getBalID()));
+            creatingBalance.setString(2, Integer.toString(ManageUser.getUserID()));
             
             creatingBalance.executeUpdate();
             
@@ -154,7 +153,7 @@ public class Function {
             UpdatePreparedStatement.setString(7, PurStr);
             UpdatePreparedStatement.setString(8, MunCit);
             UpdatePreparedStatement.setString(9, region);
-            UpdatePreparedStatement.setInt(10, ManageUser.getCurrentUserID());
+            UpdatePreparedStatement.setInt(10, ManageUser.getUserID());
 
             UpdatePreparedStatement.executeUpdate();
             
@@ -189,7 +188,8 @@ public class Function {
                 String PurStr = result.getString("user_purok_street");
                 String MunCit = result.getString("user_municipal_city");
                 String region = result.getString("user_region");
-                boolean status = result.getBoolean("user_status");
+                String status = result.getString("user_status");
+                Date dateCreated = result.getDate("date_created");
                     
                 String searchResult =
                         
@@ -198,7 +198,8 @@ public class Function {
                         + "Full Name: " + firstName + " " + middleName + " " + lastName + " " + nameExtension + "\n"
                         + "Birthdate: " + userBirthdate + " (YYYY-MM-DD)" + "\n"
                         + "Address: " + PurStr + ", " + MunCit + " " + region + "\n"
-                        + "Status: " + status + "\n(Enabled = True, Disabled = False)" + "\n";
+                        + "Account Created: " + dateCreated + "\n"
+                        + "Status: " + status;
                 
                 JOptionPane.showMessageDialog(null, searchResult, "Search Result (via ID)", JOptionPane.INFORMATION_MESSAGE);
                     
@@ -240,8 +241,9 @@ public class Function {
                 String PurStr = result.getString("user_purok_street");
                 String MunCit = result.getString("user_municipal_city");
                 String region = result.getString("user_region");
-                boolean status = result.getBoolean("user_status");
-                
+                String status = result.getString("user_status");
+                Date dateCreated = result.getDate("date_created");
+                    
                 String searchResult =
                         
                         "User's ID: " + userID + "\n"
@@ -249,7 +251,8 @@ public class Function {
                         + "Full Name: " + firstName + " " + middleName + " " + lastName + " " + nameExtension + "\n"
                         + "Birthdate: " + userBirthdate + " (YYYY-MM-DD)" + "\n"
                         + "Address: " + PurStr + ", " + MunCit + " " + region + "\n"
-                        + "Status: " + status + "\n(Enabled = True, Disabled = False)" + "\n";
+                        + "Account Created: " + dateCreated + "\n"
+                        + "Status: " + status;
                 
                 JOptionPane.showMessageDialog(null, searchResult, "Search Result (via username)", JOptionPane.INFORMATION_MESSAGE);
                     
@@ -270,7 +273,7 @@ public class Function {
     
     public static void deleteAccount(){
             
-        int currentID = SessionManager.getUserID();
+        int currentID = ManageUser.getUserID();
         
         try (Connection connection = DBConnection.getConnection()) {
 
@@ -298,7 +301,7 @@ public class Function {
                     
                     Login login = new Login();
                     login.setVisible(true);
-                    SessionManager.clearSession();
+                    ManageUser.clearSession();
                     
                 }
         

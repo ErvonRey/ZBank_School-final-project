@@ -8,9 +8,23 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 import DatabaseConnection.*;
-import User.SessionManager;
 
 public class UserSession {
+    
+    UserSession(){}
+    
+    private static String currentUser;
+    private static String currentUsername;
+    private static double currentBalance;
+    private static double currentInvestmentBalance;
+    
+    
+    //getters
+    public static String getCurrentUsername(){ return currentUsername; }
+    public static String getCurrentUser(){ return currentUser; }
+    public static double getCurrentUserBalance(){ return currentBalance; }
+    public static double getCurrentInvestmentBalance(){ return currentInvestmentBalance; }
+    
     
     public static boolean isUsernameDuplicated(String username){
         
@@ -57,9 +71,25 @@ public class UserSession {
             if (result.next()) {
                 
                 //Account matched
-//                System.out.println("Account matched...");
+//                System.out.println("Account matched on bank_users...");
+                
+                //getting user_id
                 int userID = result.getInt("user_id");
-                SessionManager.setUserID(userID);
+                ManageUser.setUserID(userID);
+                
+                //getting bal_id
+                String SQLBalance = "SELECT bal_id FROM users_balance WHERE user_id = ?;";
+                PreparedStatement balanceLogin = connection.prepareStatement(SQLBalance);
+                balanceLogin.setInt(1, userID);
+                ResultSet balResult = balanceLogin.executeQuery();
+                
+                if (balResult.next()){
+                    int balID = balResult.getInt("bal_id");
+                    ManageUser.setBalID(balID);
+                }
+                
+                //Account matched
+//                System.out.println("Account matched on users_balance...");
                 
                 return true;
                 
@@ -69,7 +99,7 @@ public class UserSession {
                 String errorMessage =
                         "Account either does not exist or you typed\n"
                         + "an incorrect username or password. kindly\n"
-                        + "check then try again...";
+                        + "confirm and then try again...";
                 
                 JOptionPane.showMessageDialog(null, errorMessage, "Login Error", JOptionPane.ERROR_MESSAGE);
                 return false;
@@ -85,13 +115,66 @@ public class UserSession {
     
     public static void logOut(){
         
-        SessionManager.clearSession();
+        ManageUser.clearSession();
         
     }
 
-    public static void main(String[] args) {
+    public static void getUserInformation(){
         
+        //bank_users table
+        try (Connection connection = DBConnection.getConnection()){
+            
+            String SQLbank_users_stmt = "SELECT * FROM bank_users WHERE user_id = ?";
+            
+            PreparedStatement bank_users_stmt = connection.prepareStatement(SQLbank_users_stmt);
+            
+            bank_users_stmt.setInt(1, ManageUser.getUserID());
+            
+            ResultSet bank_users_result = bank_users_stmt.executeQuery();
+            
+            if (bank_users_result.next()){
+                
+                String firstName = bank_users_result.getString("user_first_name");
+                String middleName = bank_users_result.getString("user_middle_name");
+                char middleInitial = middleName.isEmpty() ? ' ' : middleName.charAt(0);
+                String lastName = bank_users_result.getString("user_last_name");
+                String nameExtension = bank_users_result.getString("user_name_extension");
+                
+                String fullName = firstName 
+                    + (middleName.isEmpty() ? "" : " " + middleInitial + ".") 
+                    + " " + lastName 
+                    + (nameExtension.isEmpty() ? "" : " " + nameExtension);
+
+                currentUser = fullName.trim();
+                currentUsername = bank_users_result.getString("user_username");
+                
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Error on database method(getUserInformation bank_user): " + e);
+        }
         
+        //users_balance table
+        try (Connection connection = DBConnection.getConnection()){
+            
+            String SQLusers_balance_stmt = "SELECT * FROM users_balance WHERE bal_id = ?";
+            
+            PreparedStatement users_balance_result = connection.prepareStatement(SQLusers_balance_stmt);
+            
+            users_balance_result.setInt(1, ManageUser.getBalID());
+            
+            ResultSet result = users_balance_result.executeQuery();
+            
+            if (result.next()){
+                
+                currentBalance = result.getDouble("user_balance");
+                currentInvestmentBalance = result.getDouble("user_investment");
+                
+            }
+            
+        } catch (SQLException e) {
+            System.out.println("Error on database method(getUserInformation users_balance): " + e);
+        }
         
     }
     

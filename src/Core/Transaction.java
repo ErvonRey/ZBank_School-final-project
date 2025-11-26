@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 import DatabaseConnection.*;
-import User.SessionManager;
+import User.ManageUser;
 
 public class Transaction {
     
@@ -44,7 +44,7 @@ public class Transaction {
 
     public static void sendMoney(double amount, int ID){
         
-        double currentBalance = getBalanceFrom(SessionManager.getUserID());
+        double currentBalance = getBalanceFrom(ManageUser.getUserID());
         
         if (amount > currentBalance){
             JOptionPane.showMessageDialog(null, "Failed to send. Not enough balance!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
@@ -87,7 +87,7 @@ public class Transaction {
             PreparedStatement deductMoney = connection.prepareStatement(SQLDeductMoney);
             
             deductMoney.setDouble(1, amount);
-            deductMoney.setInt(2, SessionManager.getUserID());
+            deductMoney.setInt(2, ManageUser.getUserID());
             
             deductMoney.executeUpdate();
             
@@ -118,7 +118,7 @@ public class Transaction {
     
     public static void sendMoney(double amount, String username){
         
-        double currentBalance = getBalanceFrom(SessionManager.getUserID());
+        double currentBalance = getBalanceFrom(ManageUser.getUserID());
         
         if (amount > currentBalance){
             JOptionPane.showMessageDialog(null, "Failed to send. Not enough balance!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
@@ -127,72 +127,50 @@ public class Transaction {
         
         //  sendMoney('amount to send', 'to who');
         
+        //get the receiver's id first then send money
+        int toUserID = -1;
         Connection connection = null;
         
         try {
             
             connection = DBConnection.getConnection();
             
-            connection.setAutoCommit(false); //starts to turn off auto save just in case it fails
+            String SQLGetUserID = "SELECT user_id FROM bank_users WHERE user_username = ?";
             
-            String SQLSendMoney = "UPDATE users_balance SET user_balance = user_balance + ? WHERE user_username = ?";
+            PreparedStatement getUserIDstmt = connection.prepareStatement(SQLGetUserID);
             
-            PreparedStatement sendingMoney = connection.prepareStatement(SQLSendMoney);
+            getUserIDstmt.setString(1, username);
             
-            sendingMoney.setDouble(1, amount);
-            sendingMoney.setString(2, username);
+            ResultSet gettingUserIDResult = getUserIDstmt.executeQuery();
             
-            int rowsUpdated = sendingMoney.executeUpdate();
-            
-            if (rowsUpdated == 0) {
+            if (gettingUserIDResult.next()) {
                 
-            //if there is no changes on the row that means the id or username is not existing
-            JOptionPane.showMessageDialog(null, "Transaction cancelled, username does not exist.");
-            connection.rollback();
-            
-                return;
-                //cancels the whole transaction
+                toUserID = gettingUserIDResult.getInt("user_id");
+                
+            } else {
+                toUserID = -1;
+                System.out.println("Username wasnt found, unable to get ID");
             }
-            
-            //deduct balance from the sender
-            
-            String SQLDeductMoney = "UPDATE users_balance SET user_balance = user_balance - ? WHERE user_id = ?";
-            
-            PreparedStatement deductMoney = connection.prepareStatement(SQLDeductMoney);
-            
-            deductMoney.setDouble(1, amount);
-            deductMoney.setInt(2, SessionManager.getUserID());
-            
-            deductMoney.executeUpdate();
-            
-            connection.commit();
-            JOptionPane.showMessageDialog(null, "Transaction Completed.");
             
         } catch (SQLException e) {
             if (connection != null) {
                 try { connection.rollback(); } catch (SQLException ex) { ex.printStackTrace(); }
             }
-            System.out.println("Error on database method(sendMoney username)" + e.getMessage());
+            System.out.println("Error on database method(sendMoney gettingID)" + e.getMessage());
         }
         
-        finally {
-            
-            if (connection != null) {
-                try {
-                    connection.setAutoCommit(true); //resetting the auto commit just in case
-                    connection.close(); //closing the connection
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-            
-        }
+        sendMoney(amount, toUserID);
         
     }
     
     public static void withdrawCash(double amount){
         
-        double currentBalance = getBalanceFrom(SessionManager.getUserID());
+        if (amount <= 0) {
+            JOptionPane.showMessageDialog(null, "Failed to withdraw. Enter a positive value you cheeky bastard!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        double currentBalance = getBalanceFrom(ManageUser.getUserID());
         
         if (amount > currentBalance){
             JOptionPane.showMessageDialog(null, "Failed to withdraw. Not enough balance!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
@@ -206,7 +184,7 @@ public class Transaction {
             PreparedStatement withdrawing = connection.prepareStatement(SQLWithdraw);
             
             withdrawing.setDouble(1, amount);
-            withdrawing.setDouble(2, SessionManager.getUserID());
+            withdrawing.setDouble(2, ManageUser.getUserID());
             
             withdrawing.executeUpdate();
             
@@ -232,11 +210,11 @@ public class Transaction {
             PreparedStatement depositing = connection.prepareStatement(SQLDeposit);
             
             depositing.setDouble(1, amount);
-            depositing.setDouble(2, SessionManager.getUserID());
+            depositing.setDouble(2, ManageUser.getUserID());
             
             depositing.executeUpdate();
             
-            JOptionPane.showMessageDialog(null, "Deposit Successful.");
+            JOptionPane.showMessageDialog(null, "Deposit Successful.", "Transaction Completed", JOptionPane.INFORMATION_MESSAGE);
             
         } catch (SQLException e) {
             System.out.println("Error on database method(sendMoney username): " + e.getMessage());
@@ -246,7 +224,7 @@ public class Transaction {
     
     public static void investMoney(double amount){
         
-        double currentBalance = getBalanceFrom(SessionManager.getUserID());
+        double currentBalance = getBalanceFrom(ManageUser.getUserID());
         
         if (amount > currentBalance){
             JOptionPane.showMessageDialog(null, "Failed to invest. Not enough balance!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
@@ -260,7 +238,7 @@ public class Transaction {
             PreparedStatement investing = connection.prepareStatement(SQLDeducting);
             
             investing.setDouble(1, amount);
-            investing.setDouble(2, SessionManager.getUserID());
+            investing.setDouble(2, ManageUser.getUserID());
             
             investing.executeUpdate();
             
@@ -269,7 +247,7 @@ public class Transaction {
             PreparedStatement adding = connection.prepareStatement(SQLAdding);
             
             adding.setDouble(1, amount);
-            adding.setDouble(2, SessionManager.getUserID());
+            adding.setDouble(2, ManageUser.getUserID());
             
             adding.executeUpdate();
             

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 
 import DatabaseConnection.DBConnection;
-import User.SessionManager;
+import User.ManageUser;
 import javax.swing.JOptionPane;
 
 public class PaymentMethod {
@@ -21,7 +21,7 @@ public class PaymentMethod {
             
             PreparedStatement gettingBalance = connection.prepareStatement(SQLgetBalance);
             
-            gettingBalance.setInt(1, SessionManager.getUserID());
+            gettingBalance.setInt(1, ManageUser.getUserID());
             
             ResultSet result = gettingBalance.executeQuery();
             
@@ -58,7 +58,7 @@ public class PaymentMethod {
             PreparedStatement paying = connection.prepareStatement(SQLPay);
             
             paying.setDouble(1, value);
-            paying.setDouble(2, SessionManager.getUserID());
+            paying.setDouble(2, ManageUser.getUserID());
             
             paying.executeUpdate();
             
@@ -99,7 +99,7 @@ class PaymentPaypal extends PaymentMethod{
             PreparedStatement paying = connection.prepareStatement(SQLPay);
             
             paying.setDouble(1, value);
-            paying.setDouble(2, SessionManager.getUserID());
+            paying.setDouble(2, ManageUser.getUserID());
             
             paying.executeUpdate();
             
@@ -140,7 +140,7 @@ class PaymentCard extends PaymentMethod{
             PreparedStatement paying = connection.prepareStatement(SQLPay);
             
             paying.setDouble(1, value);
-            paying.setDouble(2, SessionManager.getUserID());
+            paying.setDouble(2, ManageUser.getUserID());
             
             paying.executeUpdate();
             
