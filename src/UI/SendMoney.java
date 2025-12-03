@@ -42,9 +42,11 @@ public class SendMoney extends javax.swing.JFrame {
         tfSendTo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Deposit Money");
+        setTitle("Send Money");
+        setMaximumSize(new java.awt.Dimension(800, 400));
         setMinimumSize(new java.awt.Dimension(800, 400));
         setResizable(false);
+        setSize(new java.awt.Dimension(800, 400));
 
         panelBackground.setBackground(new java.awt.Color(51, 51, 51));
         panelBackground.setLayout(null);
