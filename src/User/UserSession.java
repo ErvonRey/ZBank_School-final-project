@@ -124,21 +124,32 @@ public class UserSession {
         //bank_users table
         try (Connection connection = DBConnection.getConnection()){
             
-            String SQLbank_users_stmt = "SELECT * FROM bank_users WHERE user_id = ?";
+            String getting_info_SQL =
+                "SELECT\n" +
+                "\n" +
+                "u.user_id, u.user_username, i.user_first_name, i.user_middle_name,\n" +
+                "i.user_last_name, i.user_name_extension\n" +
+                "\n" +
+                "FROM bank_users u\n" +
+                "\n" +
+                "LEFT JOIN users_information i\n" +
+                "ON u.user_id = i.user_id\n" +
+                "\n" +
+                "WHERE u.user_id = ?;";
             
-            PreparedStatement bank_users_stmt = connection.prepareStatement(SQLbank_users_stmt);
+            PreparedStatement getting_info = connection.prepareStatement(getting_info_SQL);
             
-            bank_users_stmt.setInt(1, ManageUser.getUserID());
+            getting_info.setInt(1, ManageUser.getUserID());
             
-            ResultSet bank_users_result = bank_users_stmt.executeQuery();
+            ResultSet getting_info_result = getting_info.executeQuery();
             
-            if (bank_users_result.next()){
+            if (getting_info_result.next()){
                 
-                String firstName = bank_users_result.getString("user_first_name");
-                String middleName = bank_users_result.getString("user_middle_name");
+                String firstName = getting_info_result.getString("user_first_name");
+                String middleName = getting_info_result.getString("user_middle_name");
                 char middleInitial = middleName.isEmpty() ? ' ' : middleName.charAt(0);
-                String lastName = bank_users_result.getString("user_last_name");
-                String nameExtension = bank_users_result.getString("user_name_extension");
+                String lastName = getting_info_result.getString("user_last_name");
+                String nameExtension = getting_info_result.getString("user_name_extension");
                 
                 String fullName = firstName 
                     + (middleName.isEmpty() ? "" : " " + middleInitial + ".") 
@@ -146,7 +157,7 @@ public class UserSession {
                     + (nameExtension.isEmpty() ? "" : " " + nameExtension);
 
                 currentUser = fullName.trim();
-                currentUsername = bank_users_result.getString("user_username");
+                currentUsername = getting_info_result.getString("user_username");
                 
             }
             

@@ -79,44 +79,55 @@ public class Function {
         autoIncrementUserID();
         autoIncrementBalanceID();
         
-        try (Connection conn = DBConnection.getConnection();)
+        try (Connection connection = DBConnection.getConnection();)
             
         {
+            //creating a new row on bank_user table
+            String bank_users_SQL = "INSERT INTO bank_users(user_id, user_username, user_email, user_password, user_status)"
+                    + "VALUES(?,?,?,?,?)";
+            PreparedStatement bank_users = connection.prepareStatement(bank_users_SQL);
             
-            //creating a new account on bank_user
-            String SQLCreatingAccount = "INSERT INTO bank_users("
-                + "user_id, user_username, user_email, user_password, user_phone_number,"
-                + "user_first_name, user_middle_name, user_last_name, user_name_extension,"
-                + "user_birthdate, user_purok_street, user_municipal_city, user_region, user_status, date_created)"
-                + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?, NOW())";
+            bank_users.setString(1, Integer.toString(ManageUser.getUserID()));
+            bank_users.setString(2, username);
+            bank_users.setString(3, email);
+            bank_users.setString(4, password);
+            bank_users.setString(5, "Active");
             
-            PreparedStatement creatingAccount = conn.prepareStatement(SQLCreatingAccount);
+            bank_users.executeUpdate();
             
-            creatingAccount.setString(1, Integer.toString(ManageUser.getUserID()));
-            creatingAccount.setString(2, username);
-            creatingAccount.setString(3, email);
-            creatingAccount.setString(4, password);
-            creatingAccount.setString(5, phoneNumber);
-            creatingAccount.setString(6, firstName);
-            creatingAccount.setString(7, middleName); 
-            creatingAccount.setString(8, lastName); 
-            creatingAccount.setString(9, nameExtension);
+            //linking it to users_information
+            String users_information_SQL = "INSERT INTO users_information(user_id, user_first_name, user_middle_name, user_last_name, user_name_extension, user_birthdate, user_phone_number)"
+                    + "VALUES(?,?,?,?,?,?,?)";
+            PreparedStatement users_information = connection.prepareStatement(users_information_SQL);
             
+            users_information.setString(1, Integer.toString(ManageUser.getUserID()));
+            users_information.setString(2, firstName);
+            users_information.setString(3, middleName); 
+            users_information.setString(4, lastName); 
+            users_information.setString(5, nameExtension);
             //birthdate format
             String birthdate = String.format("%04d-%02d-%02d", year, month, day);
-            creatingAccount.setString(10, birthdate);
+            users_information.setString(6, birthdate);
+            users_information.setString(7, phoneNumber);
             
-            creatingAccount.setString(11, PurStr);
-            creatingAccount.setString(12, MunCit);
-            creatingAccount.setString(13, Region);
-            creatingAccount.setBoolean(14, true);    //default value for status
+            users_information.executeUpdate();
             
-            creatingAccount.executeUpdate();
+            //linking it to users_address
+            String users_address_SQL = "INSERT INTO users_address(user_id, purok_street, municipal_city, region)"
+                    + "VALUES(?,?,?,?)";
+            PreparedStatement users_address = connection.prepareStatement(users_address_SQL);
+            
+            users_address.setString(1, Integer.toString(ManageUser.getUserID()));
+            users_address.setString(2, PurStr);
+            users_address.setString(3, MunCit);
+            users_address.setString(4, Region);
+            
+            users_address.executeUpdate();
             
             //creating a row and linking it to the current account creator
             String SQLCreatingBalance = "INSERT INTO users_balance (bal_id ,user_id) VALUES (?, ?)";
             
-            PreparedStatement creatingBalance = conn.prepareStatement(SQLCreatingBalance);
+            PreparedStatement creatingBalance = connection.prepareStatement(SQLCreatingBalance);
             
             creatingBalance.setString(1, Integer.toString(ManageUser.getBalID()));
             creatingBalance.setString(2, Integer.toString(ManageUser.getUserID()));
@@ -133,29 +144,52 @@ public class Function {
         
     }
     
-    public static void updateAccount(String username, String password, String firstName, String middleName, String lastName, String nameExtension, String birthdate, String PurStr, String MunCit, String region) {
-        
+    public static void updateAccount(
+            String username, String password, String firstName, String middleName,
+            String lastName, String nameExtension, String PurStr,
+            String MunCit, String Region)
+    {
     
-        try (Connection connection = DBConnection.getConnection();) {         //Whole connection
+        try (Connection connection = DBConnection.getConnection();) {
             
-            String SQLUpdateInformation = "UPDATE bank_users SET user_username = ?, user_password = ?, user_first_name = ?, "
-                    + "user_middle_name = ?, user_last_name = ?, user_name_extension = ?, user_purok_street = ?, user_municipal_city = ?, user_region = ?"
+            //for the bank_users table
+            String bank_users_SQL = "UPDATE bank_users SET user_username = ?, user_password = ?"
                     + " WHERE user_id = ?";
                     
-            PreparedStatement UpdatePreparedStatement = connection.prepareStatement(SQLUpdateInformation);
+            PreparedStatement bank_users = connection.prepareStatement(bank_users_SQL);
 
-            UpdatePreparedStatement.setString(1, username);
-            UpdatePreparedStatement.setString(2, password);
-            UpdatePreparedStatement.setString(3, firstName);
-            UpdatePreparedStatement.setString(4, middleName);
-            UpdatePreparedStatement.setString(5, lastName);
-            UpdatePreparedStatement.setString(6, nameExtension);
-            UpdatePreparedStatement.setString(7, PurStr);
-            UpdatePreparedStatement.setString(8, MunCit);
-            UpdatePreparedStatement.setString(9, region);
-            UpdatePreparedStatement.setInt(10, ManageUser.getUserID());
+            bank_users.setString(1, username);
+            bank_users.setString(2, password);
+            bank_users.setInt(3, ManageUser.getUserID());
 
-            UpdatePreparedStatement.executeUpdate();
+            bank_users.executeUpdate();
+            
+            //for the users_information table
+            String users_information_SQL = "UPDATE users_information SET user_first_name = ?, user_middle_name = ?"
+                    + "user_last_name = ?, user_name_extension = ? WHERE user_id = ?";
+            PreparedStatement users_information = connection.prepareStatement(users_information_SQL);
+            
+            users_information.setString(1, firstName);
+            users_information.setString(2, middleName);
+            users_information.setString(3, lastName);
+            users_information.setString(4, nameExtension);
+            users_information.setInt(5, ManageUser.getUserID());
+            
+            users_information.executeUpdate();
+            
+            //for the users_address table
+            String users_address_SQL = "UPDATE users_address SET purok_street = ?, municipal_city = ?"
+                    + "region = ? WHERE user_id = ?";
+            PreparedStatement users_address = connection.prepareStatement(users_address_SQL);
+            
+            users_address.setString(1, PurStr);
+            users_address.setString(2, MunCit);
+            users_address.setString(3, Region);
+            users_address.setInt(4, ManageUser.getUserID());
+            
+            users_address.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Successfully updated your information!");
             
             } catch (SQLException e) {
                 System.out.println("Error on database method(updateAccount): " + e.getMessage());
@@ -166,50 +200,60 @@ public class Function {
     
     public static void searchAccount(int ID){
         
-        try (Connection connection = DBConnection.getConnection();) {  
-            
-        String sql = "SELECT * FROM bank_users WHERE user_id = ?";
+        String userID = "", username = "", firstName = "", middleName = "", lastName = "", nameExtension = ""
+               , birthdate = "", PurStr = "", MunCit = "", Region = "", status = "", phoneNumber = "";
         
-        PreparedStatement searchUser = connection.prepareStatement(sql);
+        try (Connection connection = DBConnection.getConnection();) {
+            
+        String bank_users_SQL = "SELECT u.user_id, u.user_username, u.user_status,\n" +
+                                "       i.user_first_name, i.user_middle_name, i.user_last_name, i.user_name_extension, i.user_birthdate, i.user_phone_number,\n" +
+                                "       a.purok_street, a.municipal_city, a.region\n" +
+                                "FROM bank_users u\n" +
+                                "LEFT JOIN users_information i ON u.user_id = i.user_id\n" +
+                                "LEFT JOIN users_address a ON u.user_id = a.user_id\n" +
+                                "WHERE u.user_id = ?;";
+        
+        PreparedStatement search_SQL = connection.prepareStatement(bank_users_SQL);
 
-        searchUser.setInt(1, ID);
+        search_SQL.setInt(1, ID);
         
-        ResultSet result = searchUser.executeQuery();
+        ResultSet search_result = search_SQL.executeQuery();
                 
-            if (result.next()) {
+        if (search_result.next()) {
                     
-                String userID = result.getString("user_id");
-                String username = result.getString("user_username");
-                String firstName = result.getString("user_first_name");
-                String middleName = result.getString("user_middle_name");
-                String lastName = result.getString("user_last_name");
-                String nameExtension = result.getString("user_name_extension");
-                String userBirthdate = result.getString("user_birthdate");
-                String PurStr = result.getString("user_purok_street");
-                String MunCit = result.getString("user_municipal_city");
-                String region = result.getString("user_region");
-                String status = result.getString("user_status");
-                Date dateCreated = result.getDate("date_created");
-                    
-                String searchResult =
-                        
-                        "User's ID: " + userID + "\n"
-                        + "Username: " + username + "\n"
-                        + "Full Name: " + firstName + " " + middleName + " " + lastName + " " + nameExtension + "\n"
-                        + "Birthdate: " + userBirthdate + " (YYYY-MM-DD)" + "\n"
-                        + "Address: " + PurStr + ", " + MunCit + " " + region + "\n"
-                        + "Account Created: " + dateCreated + "\n"
-                        + "Status: " + status;
+            userID = search_result.getString("user_id");
+            username = search_result.getString("user_username");
+            status = search_result.getString("user_status");
+            firstName = search_result.getString("user_first_name");
+            middleName = search_result.getString("user_middle_name");
+            if (middleName == null) middleName = ""; //if the middle name is null make it blank
+            lastName = search_result.getString("user_last_name");
+            nameExtension = search_result.getString("user_name_extension");
+            if (nameExtension == null) nameExtension = ""; //same as the middle name concept
+            birthdate = search_result.getString("user_birthdate");
+            phoneNumber = search_result.getString("user_phone_number");
+            PurStr = search_result.getString("purok_street");
+            MunCit = search_result.getString("municipal_city");
+            Region = search_result.getString("region");   
                 
-                JOptionPane.showMessageDialog(null, searchResult, "Search Result (via ID)", JOptionPane.INFORMATION_MESSAGE);
-                    
-            }
-            
-            else {
+        } else {
                 
                 JOptionPane.showMessageDialog(null, "ID doesnt exist");
+                return;
                 
             }
+        
+            String searchResult =
+                        
+                "User's ID: " + userID + "\n"
+                + "Username: " + username + "\n"
+                + "Full Name: " + firstName + " " + middleName + " " + lastName + " " + nameExtension + "\n"
+                + "Birthdate: " + birthdate + " (YYYY-MM-DD)" + "\n"
+                + "Address: " + PurStr + ", " + MunCit + " " + Region + "\n"
+                + "Phone number: " + phoneNumber + "\n"
+                + "Status: " + status;
+            
+            JOptionPane.showMessageDialog(null, searchResult, "Search Result (via ID)", JOptionPane.INFORMATION_MESSAGE);
         
         } catch (SQLException e) {
             System.out.println("Error on database method(searchAccount(int)): " + e.getMessage());
@@ -221,7 +265,7 @@ public class Function {
     
         try (Connection connection = DBConnection.getConnection();) {  
             
-        String sql = "SELECT * FROM bank_users WHERE user_username = ?";
+        String sql = "SELECT user_id FROM bank_users WHERE user_username = ?";
         
         PreparedStatement searchUser = connection.prepareStatement(sql);
 
@@ -231,36 +275,15 @@ public class Function {
                 
             if (result.next()) {
                     
-                String userID = result.getString("user_id");
-                String username = result.getString("user_username");
-                String firstName = result.getString("user_first_name");
-                String middleName = result.getString("user_middle_name");
-                String lastName = result.getString("user_last_name");
-                String nameExtension = result.getString("user_name_extension");
-                String userBirthdate = result.getString("user_birthdate");
-                String PurStr = result.getString("user_purok_street");
-                String MunCit = result.getString("user_municipal_city");
-                String region = result.getString("user_region");
-                String status = result.getString("user_status");
-                Date dateCreated = result.getDate("date_created");
-                    
-                String searchResult =
-                        
-                        "User's ID: " + userID + "\n"
-                        + "Username: " + username + "\n"
-                        + "Full Name: " + firstName + " " + middleName + " " + lastName + " " + nameExtension + "\n"
-                        + "Birthdate: " + userBirthdate + " (YYYY-MM-DD)" + "\n"
-                        + "Address: " + PurStr + ", " + MunCit + " " + region + "\n"
-                        + "Account Created: " + dateCreated + "\n"
-                        + "Status: " + status;
+                int userID = result.getInt("user_id");
+                searchAccount(userID);
                 
-                JOptionPane.showMessageDialog(null, searchResult, "Search Result (via username)", JOptionPane.INFORMATION_MESSAGE);
-                    
             }
             
             else {
                 
                 JOptionPane.showMessageDialog(null, "Username doesnt exist");
+                return;
                 
             }
             
@@ -331,7 +354,7 @@ public class Function {
 //        );
 
 //        searchAccount(1000);
-//        searchAccount("@zumiiDesu");
+//        searchAccount("ervon");
         
 //        deleteAccount();
         

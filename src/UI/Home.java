@@ -1,6 +1,5 @@
 package UI;
 
-import Core.Transaction;
 import User.ManageUser;
 import User.UserSession;
 
