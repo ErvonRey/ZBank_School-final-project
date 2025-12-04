@@ -144,7 +144,7 @@ public class Function {
     }
     
     public static void updateAccount(
-            String username, String email, String password, String firstName, String middleName,
+            String password, String firstName, String middleName,
             String lastName, String nameExtension, String PurStr,
             String MunCit, String Region)
     {
@@ -152,15 +152,13 @@ public class Function {
         try (Connection connection = DBConnection.getConnection();) {
             
             //for the bank_users table
-            String bank_users_SQL = "UPDATE bank_users SET user_username = ?, user_email = ?, user_password = ?"
+            String bank_users_SQL = "UPDATE bank_users SET user_password = ?"
                     + " WHERE user_id = ?";
                     
             PreparedStatement bank_users = connection.prepareStatement(bank_users_SQL);
-
-            bank_users.setString(1, username);
-            bank_users.setString(2, email);
-            bank_users.setString(3, password);
-            bank_users.setInt(4, ManageUser.getUserID());
+            
+            bank_users.setString(1, password);
+            bank_users.setInt(2, ManageUser.getUserID());
 
             bank_users.executeUpdate();
             

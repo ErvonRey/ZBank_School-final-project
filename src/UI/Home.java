@@ -162,6 +162,9 @@ public class Home extends javax.swing.JFrame {
         lProfileNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lProfileNav.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lProfileNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lProfileNavMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lProfileNavMouseEntered(evt);
             }
@@ -345,6 +348,13 @@ public class Home extends javax.swing.JFrame {
         SendMoney sendMoney = new SendMoney();
         sendMoney.setVisible(true);
     }//GEN-LAST:event_btnSendMoneyActionPerformed
+
+    private void lProfileNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lProfileNavMouseClicked
+        // TODO add your handling code here:
+        Profile profile = new Profile();
+        profile.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lProfileNavMouseClicked
 
     /**
      * @param args the command line arguments
