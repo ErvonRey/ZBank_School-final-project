@@ -4,6 +4,7 @@ import Core.Function;
 import javax.swing.JOptionPane;
 
 import User.*;
+import static User.UserSession.isPasswordValid;
 import java.awt.Color;
 
 public class SignUp extends javax.swing.JFrame {
@@ -529,7 +530,7 @@ public class SignUp extends javax.swing.JFrame {
     
     private boolean isAccountValid(){
         
-        if (isPasswordValid() == false){
+        if (isPasswordValid(tfPassword.getText().trim()) == false){
             return false;
         }
         
@@ -568,39 +569,6 @@ public class SignUp extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, errorMessage, "Creating account validation", JOptionPane.ERROR_MESSAGE);
             
             return false;
-            
-        }
-        
-        return true;
-    }
-    
-    private boolean isPasswordValid(){
-        
-        String password = tfPassword.getText().trim();
-        
-        if (password.length() <= 8) {
-            
-            String errorMessage = "Error: Password must be greater than 8 characters.";
-            JOptionPane.showMessageDialog(null, errorMessage, "Password validation", JOptionPane.ERROR_MESSAGE);
-            return false;
-            
-        } else if (!password.matches(".*[A-Z].*")){  //one capital
-                
-            String errorMessage = "Error: Password must contain at least one capital letter.";
-            JOptionPane.showMessageDialog(rootPane, errorMessage, "Password validation", JOptionPane.ERROR_MESSAGE);
-            return false;
-                
-        } else if (!password.matches(".*[0-9].*")){  //one number
-                
-            String errorMessage = "Error: Password must contain at least one number.";
-            JOptionPane.showMessageDialog(rootPane, errorMessage, "Password validation", JOptionPane.ERROR_MESSAGE);
-            return false;
-                
-        }else if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")){ //one symbol
-                
-            String errorMessage = "Error: Password must contain at least one symbol.";
-            JOptionPane.showMessageDialog(rootPane, errorMessage, "Password validation", JOptionPane.ERROR_MESSAGE);
-            return false;    
             
         }
         

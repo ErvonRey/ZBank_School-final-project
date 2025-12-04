@@ -18,12 +18,13 @@ public class UserSession {
     private static double currentBalance;
     private static double currentInvestmentBalance;
     
-    
     //getters
     public static String getCurrentUsername(){ return currentUsername; }
     public static String getCurrentUser(){ return currentUser; }
     public static double getCurrentUserBalance(){ return currentBalance; }
     public static double getCurrentInvestmentBalance(){ return currentInvestmentBalance; }
+    
+    
     
     
     public static boolean isUsernameDuplicated(String username){
@@ -117,6 +118,37 @@ public class UserSession {
         
         ManageUser.clearSession();
         
+    }
+    
+    public static boolean isPasswordValid(String password){
+        
+        if (password.length() <= 8) {
+            
+            String errorMessage = "Error: Password must be greater than 8 characters.";
+            JOptionPane.showMessageDialog(null, errorMessage, "Password validation", JOptionPane.ERROR_MESSAGE);
+            return false;
+            
+        } else if (!password.matches(".*[A-Z].*")){  //one capital
+                
+            String errorMessage = "Error: Password must contain at least one capital letter.";
+            JOptionPane.showMessageDialog(null, errorMessage, "Password validation", JOptionPane.ERROR_MESSAGE);
+            return false;
+                
+        } else if (!password.matches(".*[0-9].*")){  //one number
+                
+            String errorMessage = "Error: Password must contain at least one number.";
+            JOptionPane.showMessageDialog(null, errorMessage, "Password validation", JOptionPane.ERROR_MESSAGE);
+            return false;
+                
+        }else if (!password.matches(".*[!@#$%^&*(),.?\":{}|<>].*")){ //one symbol
+                
+            String errorMessage = "Error: Password must contain at least one symbol.";
+            JOptionPane.showMessageDialog(null, errorMessage, "Password validation", JOptionPane.ERROR_MESSAGE);
+            return false;    
+            
+        }
+        
+        return true;
     }
 
     public static void getUserInformation(){

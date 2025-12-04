@@ -1,5 +1,9 @@
 package UI;
 
+import Core.Function;
+import User.FullInformation;
+import User.ManageUser;
+
 /**
  *
  * @author Mellisa
@@ -13,6 +17,7 @@ public class Profile extends javax.swing.JFrame {
      */
     public Profile() {
         initComponents();
+        loadData();
     }
 
     /**
@@ -24,27 +29,498 @@ public class Profile extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelBackground = new javax.swing.JPanel();
+        panelNavigation = new javax.swing.JPanel();
+        lProfileLogo = new javax.swing.JLabel();
+        lProfileInfo = new javax.swing.JLabel();
+        panelSearch = new javax.swing.JPanel();
+        lSearchNav = new javax.swing.JLabel();
+        panelInvestment = new javax.swing.JPanel();
+        lInvestmentNav = new javax.swing.JLabel();
+        panelHome = new javax.swing.JPanel();
+        lHomeNav = new javax.swing.JLabel();
+        tfLastName = new javax.swing.JTextField();
+        tfFirstName = new javax.swing.JTextField();
+        tfMiddleName = new javax.swing.JTextField();
+        lLastName = new javax.swing.JLabel();
+        lFirstName = new javax.swing.JLabel();
+        lMiddleName = new javax.swing.JLabel();
+        tfUsername = new javax.swing.JTextField();
+        tfEmail = new javax.swing.JTextField();
+        lPassword = new javax.swing.JLabel();
+        lUsername = new javax.swing.JLabel();
+        lEmail = new javax.swing.JLabel();
+        tfNameExtension = new javax.swing.JTextField();
+        lExtension = new javax.swing.JLabel();
+        tfRegion = new javax.swing.JTextField();
+        tfPurokStreet = new javax.swing.JTextField();
+        tfMunicipalCity = new javax.swing.JTextField();
+        lRegion = new javax.swing.JLabel();
+        lPurStr = new javax.swing.JLabel();
+        lMunCit = new javax.swing.JLabel();
+        lEmail1 = new javax.swing.JLabel();
+        tfPhoneNumber = new javax.swing.JTextField();
+        tfBirthdate = new javax.swing.JTextField();
+        lPurStr1 = new javax.swing.JLabel();
+        btnSave = new javax.swing.JButton();
+        tfPassword = new javax.swing.JPasswordField();
+        rbSeePassword = new javax.swing.JRadioButton();
+        btnDeleteAccount = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Profile");
         setMaximumSize(new java.awt.Dimension(850, 600));
         setMinimumSize(new java.awt.Dimension(850, 600));
+        setPreferredSize(new java.awt.Dimension(850, 600));
         setResizable(false);
         setSize(new java.awt.Dimension(850, 600));
+
+        panelBackground.setBackground(new java.awt.Color(51, 51, 51));
+        panelBackground.setLayout(null);
+
+        panelNavigation.setBackground(new java.awt.Color(102, 102, 102));
+        panelNavigation.setLayout(null);
+
+        lProfileLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Profile Logo.png"))); // NOI18N
+        panelNavigation.add(lProfileLogo);
+        lProfileLogo.setBounds(10, 10, 60, 60);
+
+        lProfileInfo.setBackground(new java.awt.Color(255, 255, 255));
+        lProfileInfo.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
+        lProfileInfo.setForeground(new java.awt.Color(255, 255, 255));
+        lProfileInfo.setText("Profile");
+        panelNavigation.add(lProfileInfo);
+        lProfileInfo.setBounds(90, 30, 190, 50);
+
+        panelSearch.setBackground(new java.awt.Color(255, 255, 255));
+        panelSearch.setForeground(new java.awt.Color(255, 255, 255));
+
+        lSearchNav.setBackground(new java.awt.Color(255, 255, 255));
+        lSearchNav.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        lSearchNav.setForeground(new java.awt.Color(51, 51, 51));
+        lSearchNav.setText("Search");
+        lSearchNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lSearchNav.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lSearchNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lSearchNavMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lSearchNavMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelSearchLayout = new javax.swing.GroupLayout(panelSearch);
+        panelSearch.setLayout(panelSearchLayout);
+        panelSearchLayout.setHorizontalGroup(
+            panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSearchLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lSearchNav)
+                .addGap(17, 17, 17))
+        );
+        panelSearchLayout.setVerticalGroup(
+            panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lSearchNav, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        panelNavigation.add(panelSearch);
+        panelSearch.setBounds(730, 50, 83, 30);
+
+        panelInvestment.setBackground(new java.awt.Color(255, 255, 255));
+
+        lInvestmentNav.setBackground(new java.awt.Color(255, 255, 255));
+        lInvestmentNav.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        lInvestmentNav.setForeground(new java.awt.Color(51, 51, 51));
+        lInvestmentNav.setText("Investment");
+        lInvestmentNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lInvestmentNav.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lInvestmentNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lInvestmentNavMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lInvestmentNavMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelInvestmentLayout = new javax.swing.GroupLayout(panelInvestment);
+        panelInvestment.setLayout(panelInvestmentLayout);
+        panelInvestmentLayout.setHorizontalGroup(
+            panelInvestmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInvestmentLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(lInvestmentNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelInvestmentLayout.setVerticalGroup(
+            panelInvestmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lInvestmentNav, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        panelNavigation.add(panelInvestment);
+        panelInvestment.setBounds(600, 50, 120, 30);
+
+        panelHome.setBackground(new java.awt.Color(255, 255, 255));
+
+        lHomeNav.setBackground(new java.awt.Color(255, 255, 255));
+        lHomeNav.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        lHomeNav.setForeground(new java.awt.Color(51, 51, 51));
+        lHomeNav.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lHomeNav.setText("Home");
+        lHomeNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lHomeNav.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lHomeNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lHomeNavMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lHomeNavMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lHomeNavMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelHomeLayout = new javax.swing.GroupLayout(panelHome);
+        panelHome.setLayout(panelHomeLayout);
+        panelHomeLayout.setHorizontalGroup(
+            panelHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelHomeLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(lHomeNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelHomeLayout.setVerticalGroup(
+            panelHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lHomeNav, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        panelNavigation.add(panelHome);
+        panelHome.setBounds(500, 50, 90, 30);
+
+        panelBackground.add(panelNavigation);
+        panelNavigation.setBounds(0, 0, 850, 80);
+
+        tfLastName.setBackground(new java.awt.Color(102, 102, 102));
+        tfLastName.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        tfLastName.setForeground(new java.awt.Color(255, 255, 255));
+        tfLastName.setText("Last Name");
+        tfLastName.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelBackground.add(tfLastName);
+        tfLastName.setBounds(170, 210, 220, 26);
+
+        tfFirstName.setBackground(new java.awt.Color(102, 102, 102));
+        tfFirstName.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        tfFirstName.setForeground(new java.awt.Color(255, 255, 255));
+        tfFirstName.setText("First Name");
+        tfFirstName.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelBackground.add(tfFirstName);
+        tfFirstName.setBounds(170, 130, 220, 26);
+
+        tfMiddleName.setBackground(new java.awt.Color(102, 102, 102));
+        tfMiddleName.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        tfMiddleName.setForeground(new java.awt.Color(255, 255, 255));
+        tfMiddleName.setText("Middle Name");
+        tfMiddleName.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelBackground.add(tfMiddleName);
+        tfMiddleName.setBounds(170, 170, 220, 26);
+
+        lLastName.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        lLastName.setForeground(new java.awt.Color(255, 255, 255));
+        lLastName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lLastName.setText("Last Name:");
+        panelBackground.add(lLastName);
+        lLastName.setBounds(60, 210, 110, 30);
+
+        lFirstName.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        lFirstName.setForeground(new java.awt.Color(255, 255, 255));
+        lFirstName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lFirstName.setText("First Name:");
+        panelBackground.add(lFirstName);
+        lFirstName.setBounds(50, 130, 120, 30);
+
+        lMiddleName.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        lMiddleName.setForeground(new java.awt.Color(255, 255, 255));
+        lMiddleName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lMiddleName.setText("Middle Name:");
+        panelBackground.add(lMiddleName);
+        lMiddleName.setBounds(40, 170, 130, 30);
+
+        tfUsername.setEditable(false);
+        tfUsername.setBackground(new java.awt.Color(102, 102, 102));
+        tfUsername.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        tfUsername.setForeground(new java.awt.Color(255, 255, 255));
+        tfUsername.setText("Username");
+        tfUsername.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelBackground.add(tfUsername);
+        tfUsername.setBounds(570, 130, 220, 26);
+
+        tfEmail.setEditable(false);
+        tfEmail.setBackground(new java.awt.Color(102, 102, 102));
+        tfEmail.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        tfEmail.setForeground(new java.awt.Color(255, 255, 255));
+        tfEmail.setText("Email");
+        tfEmail.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelBackground.add(tfEmail);
+        tfEmail.setBounds(570, 170, 220, 26);
+
+        lPassword.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        lPassword.setForeground(new java.awt.Color(255, 255, 255));
+        lPassword.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lPassword.setText("Password:");
+        panelBackground.add(lPassword);
+        lPassword.setBounds(460, 250, 110, 30);
+
+        lUsername.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        lUsername.setForeground(new java.awt.Color(255, 255, 255));
+        lUsername.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lUsername.setText("Username:");
+        panelBackground.add(lUsername);
+        lUsername.setBounds(450, 130, 120, 30);
+
+        lEmail.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        lEmail.setForeground(new java.awt.Color(255, 255, 255));
+        lEmail.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lEmail.setText("Email:");
+        panelBackground.add(lEmail);
+        lEmail.setBounds(440, 170, 130, 30);
+
+        tfNameExtension.setBackground(new java.awt.Color(102, 102, 102));
+        tfNameExtension.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        tfNameExtension.setForeground(new java.awt.Color(255, 255, 255));
+        tfNameExtension.setText("Name Extension");
+        tfNameExtension.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelBackground.add(tfNameExtension);
+        tfNameExtension.setBounds(170, 250, 220, 26);
+
+        lExtension.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        lExtension.setForeground(new java.awt.Color(255, 255, 255));
+        lExtension.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lExtension.setText("Extension:");
+        panelBackground.add(lExtension);
+        lExtension.setBounds(60, 250, 110, 30);
+
+        tfRegion.setBackground(new java.awt.Color(102, 102, 102));
+        tfRegion.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        tfRegion.setForeground(new java.awt.Color(255, 255, 255));
+        tfRegion.setText("Region");
+        tfRegion.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelBackground.add(tfRegion);
+        tfRegion.setBounds(170, 440, 220, 26);
+
+        tfPurokStreet.setBackground(new java.awt.Color(102, 102, 102));
+        tfPurokStreet.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        tfPurokStreet.setForeground(new java.awt.Color(255, 255, 255));
+        tfPurokStreet.setText("Purok or Street");
+        tfPurokStreet.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelBackground.add(tfPurokStreet);
+        tfPurokStreet.setBounds(170, 360, 220, 26);
+
+        tfMunicipalCity.setBackground(new java.awt.Color(102, 102, 102));
+        tfMunicipalCity.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        tfMunicipalCity.setForeground(new java.awt.Color(255, 255, 255));
+        tfMunicipalCity.setText("Municipality or City");
+        tfMunicipalCity.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelBackground.add(tfMunicipalCity);
+        tfMunicipalCity.setBounds(170, 400, 220, 26);
+
+        lRegion.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        lRegion.setForeground(new java.awt.Color(255, 255, 255));
+        lRegion.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lRegion.setText("Region:");
+        panelBackground.add(lRegion);
+        lRegion.setBounds(60, 440, 110, 30);
+
+        lPurStr.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        lPurStr.setForeground(new java.awt.Color(255, 255, 255));
+        lPurStr.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lPurStr.setText("Purok/Street:");
+        panelBackground.add(lPurStr);
+        lPurStr.setBounds(30, 360, 140, 30);
+
+        lMunCit.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        lMunCit.setForeground(new java.awt.Color(255, 255, 255));
+        lMunCit.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lMunCit.setText("Municipal/City:");
+        panelBackground.add(lMunCit);
+        lMunCit.setBounds(10, 400, 160, 30);
+
+        lEmail1.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        lEmail1.setForeground(new java.awt.Color(255, 255, 255));
+        lEmail1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lEmail1.setText("Phone Number:");
+        panelBackground.add(lEmail1);
+        lEmail1.setBounds(430, 210, 140, 30);
+
+        tfPhoneNumber.setEditable(false);
+        tfPhoneNumber.setBackground(new java.awt.Color(102, 102, 102));
+        tfPhoneNumber.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        tfPhoneNumber.setForeground(new java.awt.Color(255, 255, 255));
+        tfPhoneNumber.setText("09123456789");
+        tfPhoneNumber.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelBackground.add(tfPhoneNumber);
+        tfPhoneNumber.setBounds(570, 210, 220, 26);
+
+        tfBirthdate.setEditable(false);
+        tfBirthdate.setBackground(new java.awt.Color(102, 102, 102));
+        tfBirthdate.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        tfBirthdate.setForeground(new java.awt.Color(255, 255, 255));
+        tfBirthdate.setText("(YYYY-MM-DD)");
+        tfBirthdate.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelBackground.add(tfBirthdate);
+        tfBirthdate.setBounds(570, 360, 220, 26);
+
+        lPurStr1.setFont(new java.awt.Font("Consolas", 0, 18)); // NOI18N
+        lPurStr1.setForeground(new java.awt.Color(255, 255, 255));
+        lPurStr1.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lPurStr1.setText("Birthday:");
+        panelBackground.add(lPurStr1);
+        lPurStr1.setBounds(430, 360, 140, 30);
+
+        btnSave.setBackground(new java.awt.Color(102, 102, 102));
+        btnSave.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        btnSave.setForeground(new java.awt.Color(255, 255, 255));
+        btnSave.setText("Save Changes");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+        panelBackground.add(btnSave);
+        btnSave.setBounds(480, 440, 310, 30);
+
+        tfPassword.setBackground(new java.awt.Color(102, 102, 102));
+        tfPassword.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        tfPassword.setForeground(new java.awt.Color(255, 255, 255));
+        tfPassword.setText("Password");
+        panelBackground.add(tfPassword);
+        tfPassword.setBounds(570, 250, 220, 30);
+
+        rbSeePassword.setForeground(new java.awt.Color(255, 255, 255));
+        rbSeePassword.setText("See password");
+        rbSeePassword.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                rbSeePasswordItemStateChanged(evt);
+            }
+        });
+        panelBackground.add(rbSeePassword);
+        rbSeePassword.setBounds(690, 280, 98, 21);
+
+        btnDeleteAccount.setBackground(new java.awt.Color(102, 102, 102));
+        btnDeleteAccount.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        btnDeleteAccount.setForeground(new java.awt.Color(255, 255, 255));
+        btnDeleteAccount.setText("Delete Account");
+        panelBackground.add(btnDeleteAccount);
+        btnDeleteAccount.setBounds(480, 400, 310, 30);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 850, Short.MAX_VALUE)
+            .addComponent(panelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addComponent(panelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        pack();
+        setSize(new java.awt.Dimension(864, 608));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    
+    
+    public void loadData(){
+        
+        FullInformation fi = new FullInformation();
+        
+        fi.getInformation(ManageUser.getUserID());
+        
+        String firstName = fi.getFirstName(),
+               middleName = fi.getMiddleName(),
+               lastName = fi.getLastName(),
+               nameExtension = fi.getExtensionName(),
+               PurStr = fi.getStreetPurok(),
+               MunCit = fi.getMunicipalCity(),
+               Region = fi.getRegion(),
+               username = fi.getUsername(),
+               email = fi.getEmail(),
+               password = fi.getPassword(),
+               phoneNumber = fi.getPhoneNumber(),
+               birthdate = fi.getBirthdate();
+        
+        
+        tfFirstName.setText(firstName);
+        tfMiddleName.setText(middleName);
+        tfLastName.setText(lastName);
+        tfNameExtension.setText(nameExtension);
+        tfPurokStreet.setText(PurStr);
+        tfMunicipalCity.setText(MunCit);
+        tfRegion.setText(Region);
+        tfUsername.setText(username);
+        tfEmail.setText(email);
+        tfPassword.setText(password);
+        tfPhoneNumber.setText(phoneNumber);
+        tfBirthdate.setText(birthdate);
+        
+    }
+    
+    private void lSearchNavMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lSearchNavMouseEntered
+        lSearchNav.setText("<html><u>" + "Search" + "<u/><html>");
+    }//GEN-LAST:event_lSearchNavMouseEntered
+
+    private void lSearchNavMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lSearchNavMouseExited
+        lSearchNav.setText("Search");
+    }//GEN-LAST:event_lSearchNavMouseExited
+
+    private void lInvestmentNavMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lInvestmentNavMouseEntered
+        lInvestmentNav.setText("<html><u>" + "Investment" + "<u/><html>");
+    }//GEN-LAST:event_lInvestmentNavMouseEntered
+
+    private void lInvestmentNavMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lInvestmentNavMouseExited
+        lInvestmentNav.setText("Investment");
+    }//GEN-LAST:event_lInvestmentNavMouseExited
+
+    private void lHomeNavMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lHomeNavMouseEntered
+        lHomeNav.setText("<html><u>" + "Home" + "<u/><html>");
+    }//GEN-LAST:event_lHomeNavMouseEntered
+
+    private void lHomeNavMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lHomeNavMouseExited
+        lHomeNav.setText("Home");
+    }//GEN-LAST:event_lHomeNavMouseExited
+
+    private void rbSeePasswordItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbSeePasswordItemStateChanged
+        // TODO add your handling code here:
+        if (rbSeePassword.isSelected()) {
+            tfPassword.setEchoChar((char) 0);
+        } else {
+            tfPassword.setEchoChar('*');
+        }
+    }//GEN-LAST:event_rbSeePasswordItemStateChanged
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+        String tempPassword = tfPassword.getText().trim(),
+                tempFirstName = tfFirstName.getText().trim(),
+                tempMiddleName = tfMiddleName.getText().trim(),
+                tempLastName = tfLastName.getText().trim(),
+                tempNameExtension = tfNameExtension.getText().trim(),
+                tempPurStr = tfPurokStreet.getText().trim(),
+                tempMunCit = tfMunicipalCity.getText().trim(),
+                tempRegion = tfRegion.getText().trim();
+        
+        Function.updateAccount(
+                tempPassword, tempFirstName, tempMiddleName, tempLastName, tempNameExtension, tempPurStr, tempMunCit, tempRegion
+            );
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void lHomeNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lHomeNavMouseClicked
+        // TODO add your handling code here:
+        Home home = new Home();
+        home.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lHomeNavMouseClicked
 
     /**
      * @param args the command line arguments
@@ -72,5 +548,42 @@ public class Profile extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDeleteAccount;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JLabel lEmail;
+    private javax.swing.JLabel lEmail1;
+    private javax.swing.JLabel lExtension;
+    private javax.swing.JLabel lFirstName;
+    private javax.swing.JLabel lHomeNav;
+    private javax.swing.JLabel lInvestmentNav;
+    private javax.swing.JLabel lLastName;
+    private javax.swing.JLabel lMiddleName;
+    private javax.swing.JLabel lMunCit;
+    private javax.swing.JLabel lPassword;
+    private javax.swing.JLabel lProfileInfo;
+    private javax.swing.JLabel lProfileLogo;
+    private javax.swing.JLabel lPurStr;
+    private javax.swing.JLabel lPurStr1;
+    private javax.swing.JLabel lRegion;
+    private javax.swing.JLabel lSearchNav;
+    private javax.swing.JLabel lUsername;
+    private javax.swing.JPanel panelBackground;
+    private javax.swing.JPanel panelHome;
+    private javax.swing.JPanel panelInvestment;
+    private javax.swing.JPanel panelNavigation;
+    private javax.swing.JPanel panelSearch;
+    private javax.swing.JRadioButton rbSeePassword;
+    private javax.swing.JTextField tfBirthdate;
+    private javax.swing.JTextField tfEmail;
+    private javax.swing.JTextField tfFirstName;
+    private javax.swing.JTextField tfLastName;
+    private javax.swing.JTextField tfMiddleName;
+    private javax.swing.JTextField tfMunicipalCity;
+    private javax.swing.JTextField tfNameExtension;
+    private javax.swing.JPasswordField tfPassword;
+    private javax.swing.JTextField tfPhoneNumber;
+    private javax.swing.JTextField tfPurokStreet;
+    private javax.swing.JTextField tfRegion;
+    private javax.swing.JTextField tfUsername;
     // End of variables declaration//GEN-END:variables
 }
