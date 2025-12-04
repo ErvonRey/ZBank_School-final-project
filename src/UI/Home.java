@@ -63,7 +63,9 @@ public class Home extends javax.swing.JFrame {
         setTitle("Home");
         setMaximumSize(new java.awt.Dimension(850, 600));
         setMinimumSize(new java.awt.Dimension(850, 600));
+        setPreferredSize(new java.awt.Dimension(850, 600));
         setResizable(false);
+        setSize(new java.awt.Dimension(850, 600));
 
         panelBackground.setBackground(new java.awt.Color(51, 51, 51));
         panelBackground.setLayout(null);
@@ -297,7 +299,7 @@ public class Home extends javax.swing.JFrame {
             .addComponent(panelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        pack();
+        setSize(new java.awt.Dimension(864, 608));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

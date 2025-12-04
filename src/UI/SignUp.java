@@ -435,7 +435,7 @@ public class SignUp extends javax.swing.JFrame {
         getContentPane().add(background_panel);
         background_panel.setBounds(0, 0, 900, 600);
 
-        pack();
+        setSize(new java.awt.Dimension(914, 608));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

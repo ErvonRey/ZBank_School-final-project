@@ -10,7 +10,6 @@ import javax.swing.JOptionPane;
 
 import DatabaseConnection.*;
 import UI.Login;
-import java.util.Date;
 
 public class Function {
     
@@ -145,7 +144,7 @@ public class Function {
     }
     
     public static void updateAccount(
-            String username, String password, String firstName, String middleName,
+            String username, String email, String password, String firstName, String middleName,
             String lastName, String nameExtension, String PurStr,
             String MunCit, String Region)
     {
@@ -153,14 +152,15 @@ public class Function {
         try (Connection connection = DBConnection.getConnection();) {
             
             //for the bank_users table
-            String bank_users_SQL = "UPDATE bank_users SET user_username = ?, user_password = ?"
+            String bank_users_SQL = "UPDATE bank_users SET user_username = ?, user_email = ?, user_password = ?"
                     + " WHERE user_id = ?";
                     
             PreparedStatement bank_users = connection.prepareStatement(bank_users_SQL);
 
             bank_users.setString(1, username);
-            bank_users.setString(2, password);
-            bank_users.setInt(3, ManageUser.getUserID());
+            bank_users.setString(2, email);
+            bank_users.setString(3, password);
+            bank_users.setInt(4, ManageUser.getUserID());
 
             bank_users.executeUpdate();
             
@@ -240,7 +240,7 @@ public class Function {
                 
         } else {
                 
-                JOptionPane.showMessageDialog(null, "ID doesnt exist");
+                JOptionPane.showMessageDialog(null, "user with that ID does not exist");
                 return;
                 
             }
@@ -251,11 +251,11 @@ public class Function {
                 + "Username: " + username + "\n"
                 + "Full Name: " + firstName + " " + middleName + " " + lastName + " " + nameExtension + "\n"
                 + "Birthdate: " + birthdate + " (YYYY-MM-DD)" + "\n"
-                + "Address: " + PurStr + ", " + MunCit + " " + Region + "\n"
+                + "Address: " + PurStr + ", " + MunCit + ", " + Region + "\n"
                 + "Phone number: " + phoneNumber + "\n"
                 + "Status: " + status;
             
-            JOptionPane.showMessageDialog(null, searchResult, "Search Result (via ID)", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, searchResult, "Search Result", JOptionPane.INFORMATION_MESSAGE);
         
         } catch (SQLException e) {
             System.out.println("Error on database method(searchAccount(int)): " + e.getMessage());
@@ -284,7 +284,7 @@ public class Function {
             
             else {
                 
-                JOptionPane.showMessageDialog(null, "Username doesnt exist");
+                JOptionPane.showMessageDialog(null, "user with that username does not exist");
                 return;
                 
             }
@@ -348,12 +348,11 @@ public class Function {
 //                
 //            );
 
-//        updateAccount(
-//        
-//               "@zumiiDesu", "test123", "Ervon Rey", "Quinones", "Mellisa", "",
-//                "2006-02-10", "Purok 1-B Bacungan", "Magsaysay", "Davao del Sur"
-//                
-//        );
+//    ManageUser.setUserID(1000);
+//    updateAccount(
+//                "ervonrey", "zumi@gmail.com","ervon", "Ervon Rey", "Quinones",
+//                "Mellisa", "", "Purok 1-B Burikaka",
+//                "Baritongtong", "Davao del Sur");
 
 //        searchAccount(1000);
 //        searchAccount("ervon");

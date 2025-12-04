@@ -96,7 +96,7 @@ public class Withdraw extends javax.swing.JFrame {
             .addComponent(panelBackground, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        pack();
+        setSize(new java.awt.Dimension(814, 408));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 

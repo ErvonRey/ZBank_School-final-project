@@ -28,7 +28,6 @@ public class Profile extends javax.swing.JFrame {
         setTitle("Profile");
         setMaximumSize(new java.awt.Dimension(850, 600));
         setMinimumSize(new java.awt.Dimension(850, 600));
-        setPreferredSize(new java.awt.Dimension(850, 600));
         setResizable(false);
         setSize(new java.awt.Dimension(850, 600));
 

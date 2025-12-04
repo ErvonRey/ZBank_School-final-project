@@ -209,7 +209,7 @@ public class Login extends javax.swing.JFrame {
 
         getAccessibleContext().setAccessibleDescription("This is the frame that will launch when user run the program");
 
-        pack();
+        setSize(new java.awt.Dimension(814, 508));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
