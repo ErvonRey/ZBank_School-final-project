@@ -20,9 +20,11 @@ public class Withdraw extends javax.swing.JFrame {
         loadData();
     }
     
+    UserSession us = new UserSession();
+    
     private void loadData(){
         
-        UserSession.getUserInformation();
+        us.getUserInformation();
         
         String balance = String.format("Current Balance: " + "%.2f" , UserSession.getCurrentUserBalance());
         lBalance.setText(balance);
@@ -120,10 +122,12 @@ public class Withdraw extends javax.swing.JFrame {
 
     private void btnConfirmWithdrawalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmWithdrawalActionPerformed
          
+        Transaction transac = new Transaction();
+        
         if (!tfWithdrawAmount.getText().trim().isEmpty()){
             
             double withdrawalAmount = Double.parseDouble(tfWithdrawAmount.getText().trim());
-            Transaction.withdrawCash(withdrawalAmount);
+            transac.withdrawCash(withdrawalAmount);
             this.dispose();
             
         } else {

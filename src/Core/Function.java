@@ -13,7 +13,9 @@ import UI.Login;
 
 public class Function {
     
-    public static void autoIncrementUserID() {
+    ManageUser mu = new ManageUser();
+    
+    public void autoIncrementUserID() {
         
         try (Connection connection = DBConnection.getConnection()) {
             
@@ -25,12 +27,12 @@ public class Function {
                 
                 int ID = rs.getInt("user_id");
                 int n = ID + 1;
-                ManageUser.setUserID(n);
+                mu.setUserID(n);
                 //encapsulation here
                 
             } else {
                 
-                ManageUser.setUserID(1000);
+                mu.setUserID(1000);
                 //encapsulation here
                 //sets up the default lowest id value to 1000
                 
@@ -40,7 +42,7 @@ public class Function {
         }
     }
     
-    public static void autoIncrementBalanceID() {
+    public void autoIncrementBalanceID() {
         
         try (Connection connection = DBConnection.getConnection()) {
             
@@ -52,12 +54,12 @@ public class Function {
                 
                 int ID = rs.getInt("bal_id");
                 int n = ID + 1;
-                ManageUser.setBalID(n);
+                mu.setBalID(n);
                 //encapsulation here
                 
             } else {
                 
-                ManageUser.setBalID(1);
+                mu.setBalID(1);
                 //encapsulation here
                 //sets up the default lowest id value to 1
                 
@@ -67,7 +69,7 @@ public class Function {
         }
     }
 
-    public static void addAccount(
+    public void addAccount(
             
             String username, String email, String password, String phoneNumber,
             String firstName, String middleName, String lastName, String nameExtension,
@@ -86,7 +88,7 @@ public class Function {
                     + "VALUES(?,?,?,?,?)";
             PreparedStatement bank_users = connection.prepareStatement(bank_users_SQL);
             
-            bank_users.setString(1, Integer.toString(ManageUser.getUserID()));
+            bank_users.setString(1, Integer.toString(mu.getUserID()));
             bank_users.setString(2, username);
             bank_users.setString(3, email);
             bank_users.setString(4, password);
@@ -99,7 +101,7 @@ public class Function {
                     + "VALUES(?,?,?,?,?,?,?)";
             PreparedStatement users_information = connection.prepareStatement(users_information_SQL);
             
-            users_information.setString(1, Integer.toString(ManageUser.getUserID()));
+            users_information.setString(1, Integer.toString(mu.getUserID()));
             users_information.setString(2, firstName);
             users_information.setString(3, middleName); 
             users_information.setString(4, lastName); 
@@ -116,7 +118,7 @@ public class Function {
                     + "VALUES(?,?,?,?)";
             PreparedStatement users_address = connection.prepareStatement(users_address_SQL);
             
-            users_address.setString(1, Integer.toString(ManageUser.getUserID()));
+            users_address.setString(1, Integer.toString(mu.getUserID()));
             users_address.setString(2, PurStr);
             users_address.setString(3, MunCit);
             users_address.setString(4, Region);
@@ -128,8 +130,8 @@ public class Function {
             
             PreparedStatement creatingBalance = connection.prepareStatement(SQLCreatingBalance);
             
-            creatingBalance.setString(1, Integer.toString(ManageUser.getBalID()));
-            creatingBalance.setString(2, Integer.toString(ManageUser.getUserID()));
+            creatingBalance.setString(1, Integer.toString(mu.getBalID()));
+            creatingBalance.setString(2, Integer.toString(mu.getUserID()));
             
             creatingBalance.executeUpdate();
             
@@ -143,7 +145,7 @@ public class Function {
         
     }
     
-    public static void updateAccount(
+    public void updateAccount(
             String password, String firstName, String middleName,
             String lastName, String nameExtension, String PurStr,
             String MunCit, String Region)
@@ -158,7 +160,7 @@ public class Function {
             PreparedStatement bank_users = connection.prepareStatement(bank_users_SQL);
             
             bank_users.setString(1, password);
-            bank_users.setInt(2, ManageUser.getUserID());
+            bank_users.setInt(2, mu.getUserID());
 
             bank_users.executeUpdate();
             
@@ -171,7 +173,7 @@ public class Function {
             users_information.setString(2, middleName);
             users_information.setString(3, lastName);
             users_information.setString(4, nameExtension);
-            users_information.setInt(5, ManageUser.getUserID());
+            users_information.setInt(5, mu.getUserID());
             
             users_information.executeUpdate();
             
@@ -183,7 +185,7 @@ public class Function {
             users_address.setString(1, PurStr);
             users_address.setString(2, MunCit);
             users_address.setString(3, Region);
-            users_address.setInt(4, ManageUser.getUserID());
+            users_address.setInt(4, mu.getUserID());
             
             users_address.executeUpdate();
             
@@ -196,7 +198,7 @@ public class Function {
         
     }
     
-    public static void searchAccount(int ID){
+    public void searchAccount(int ID){
         
         String userID = "", username = "", firstName = "", middleName = "", lastName = "", nameExtension = ""
                , birthdate = "", PurStr = "", MunCit = "", Region = "", status = "", phoneNumber = "";
@@ -261,7 +263,7 @@ public class Function {
             
     }
     
-    public static void searchAccount(String tempUsername){
+    public void searchAccount(String tempUsername){
     
         try (Connection connection = DBConnection.getConnection();) {  
             
@@ -294,9 +296,7 @@ public class Function {
     
     }
     
-    public static void deleteAccount(){
-            
-        int currentID = ManageUser.getUserID();
+    public void deleteAccount(int userID){
         
         try (Connection connection = DBConnection.getConnection()) {
 
@@ -304,19 +304,39 @@ public class Function {
 
             PreparedStatement deleteAccountOfUser = connection.prepareStatement(SQLDeleteUser);
 
-            deleteAccountOfUser.setInt(1, currentID);
+            deleteAccountOfUser.setInt(1, userID);
 
             deleteAccountOfUser.executeUpdate();
                 
             //------------------------------------
             
-            String SQLToDelete = "DELETE FROM user_balance WHERE user_id = ?";
+            String users_information_sql = "DELETE FROM users_information WHERE user_id = ?";
 
-            PreparedStatement deleteUserBalance = connection.prepareStatement(SQLToDelete);
+            PreparedStatement users_information_delete = connection.prepareStatement(users_information_sql);
 
-                deleteUserBalance.setInt(1, currentID);
+            users_information_delete.setInt(1, userID);
 
-                int rowsAffected = deleteUserBalance.executeUpdate();
+            users_information_delete.executeUpdate();
+            
+            //------------------------------------
+            
+            String users_address_sql = "DELETE FROM users_address WHERE user_id = ?";
+
+            PreparedStatement users_address_delete = connection.prepareStatement(users_address_sql);
+
+            users_address_delete.setInt(1, userID);
+
+            users_address_delete.executeUpdate();
+            
+            //------------------------------------
+            
+            String SQLToDelete = "DELETE FROM users_balance WHERE user_id = ?";
+
+            PreparedStatement deleteUsersBalance = connection.prepareStatement(SQLToDelete);
+
+                deleteUsersBalance.setInt(1, userID);
+
+                int rowsAffected = deleteUsersBalance.executeUpdate();
 
                 if (rowsAffected > 0) {
 
@@ -324,7 +344,7 @@ public class Function {
                     
                     Login login = new Login();
                     login.setVisible(true);
-                    ManageUser.clearSession();
+                    mu.clearSession();
                     
                 }
         

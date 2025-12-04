@@ -11,6 +11,8 @@ import javax.swing.JOptionPane;
 
 public class PaymentMethod {
     
+    ManageUser mu = new ManageUser();
+    
     protected double balance;
 
     public void refreshBalance() {
@@ -19,7 +21,7 @@ public class PaymentMethod {
             
             String SQLgetBalance = "SELECT user_balance FROM users_balance WHERE user_id = ?";
             PreparedStatement stmt = connection.prepareStatement(SQLgetBalance);
-            stmt.setInt(1, ManageUser.getUserID());
+            stmt.setInt(1, mu.getUserID());
             ResultSet result = stmt.executeQuery();
             
             if (result.next()) {
@@ -52,7 +54,7 @@ public class PaymentMethod {
             String SQLPay = "UPDATE users_balance SET user_balance = user_balance - ? WHERE user_id = ?";
             PreparedStatement stmt = connection.prepareStatement(SQLPay);
             stmt.setDouble(1, value);
-            stmt.setInt(2, ManageUser.getUserID());
+            stmt.setInt(2, mu.getUserID());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, methodName + " Payment Successful.");
             

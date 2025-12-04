@@ -19,15 +19,18 @@ public class Home extends javax.swing.JFrame {
         loadHomeData();
     }
     
+    UserSession su = new UserSession();
+    ManageUser mu = new ManageUser();
+    
     private void loadHomeData(){
         
-        UserSession.getUserInformation();
+        su.getUserInformation();
         
         String balance = String.format("%.2f",UserSession.getCurrentUserBalance());
         String investment = String.format("%.2f",UserSession.getCurrentInvestmentBalance());
         
         lFullName.setText(UserSession.getCurrentUser());
-        lUsername.setText("Username: @" + UserSession.getCurrentUsername() + " - User ID: " + ManageUser.getUserID());
+        lUsername.setText("Username: @" + su.getCurrentUsername() + " - User ID: " + mu.getUserID());
         lBalance.setText(balance);
         lInvestment.setText(investment);
         
@@ -289,7 +292,7 @@ public class Home extends javax.swing.JFrame {
             }
         });
         panelBackground.add(refreshIcon);
-        refreshIcon.setBounds(10, 90, 80, 30);
+        refreshIcon.setBounds(0, 80, 80, 30);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

@@ -20,9 +20,11 @@ public class SendMoney extends javax.swing.JFrame {
         loadData();
     }
     
+    UserSession us = new UserSession();
+    
     private void loadData(){
         
-        UserSession.getUserInformation();
+        us.getUserInformation();
         
         String balance = String.format("Current Balance: " + "%.2f" , UserSession.getCurrentUserBalance());
         lBalance.setText(balance);
@@ -139,6 +141,8 @@ public class SendMoney extends javax.swing.JFrame {
 
     private void btnSendMoneyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSendMoneyActionPerformed
          
+        Transaction transac = new Transaction();
+        
         if (!tfSendAmount.getText().trim().isEmpty()){
             
             double sendAmount = Double.parseDouble(tfSendAmount.getText().trim());
@@ -146,10 +150,10 @@ public class SendMoney extends javax.swing.JFrame {
             String sendTo = tfSendTo.getText().trim();
             
             if (sendTo.matches("\\d+")){
-                Transaction.sendMoney(sendAmount, Integer.parseInt(sendTo));
+                transac.sendMoney(sendAmount, Integer.parseInt(sendTo));
                 //AMOUNT, ID
             } else if (sendTo.matches("[a-zA-Z0-9]+")) {
-                Transaction.sendMoney(sendAmount, sendTo);
+                transac.sendMoney(sendAmount, sendTo);
                 //AMOUNT, USERNAME
             } else {
                 String errorMessage = "Invalid input, please enter a valid username or ID.";

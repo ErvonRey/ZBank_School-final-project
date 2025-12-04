@@ -11,28 +11,28 @@ package User;
 
 public class ManageUser {
     
-    ManageUser(){}
+    public ManageUser(){}
     
-    private static int currentUserID;
-    private static int currentBalanceID;
+    private int currentUserID;
+    private int currentBalanceID;
     
-    public static void setUserID(int tempUserID){
+    public void setUserID(int tempUserID){
         currentUserID = tempUserID;
     }
     
-    public static int getUserID(){
+    public int getUserID(){
         return currentUserID;
     }
     
-    public static void setBalID(int tempBalID){
+    public void setBalID(int tempBalID){
         currentBalanceID = tempBalID;
     }
     
-    public static int getBalID(){
+    public int getBalID(){
         return currentBalanceID;
     }
     
-    public static void clearSession(){
+    public void clearSession(){
         currentUserID = -1;
         currentBalanceID = -1;
     }

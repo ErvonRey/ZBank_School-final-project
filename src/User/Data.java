@@ -6,7 +6,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class FullInformation {
+public class Data {
+    
+    /*
+    
+        Very sensitive data
+    
+    */
 
     private String firstName;
     private String middleName;
@@ -65,28 +71,29 @@ public class FullInformation {
                 "LEFT JOIN users_address a ON u.user_id = a.user_id " +
                 "WHERE u.user_id = ?;";
 
-            PreparedStatement gettingInfo = connection.prepareStatement(getting_info_SQL);
-            gettingInfo.setInt(1, userID);
+            PreparedStatement getting_info = connection.prepareStatement(getting_info_SQL);
+            
+            getting_info.setInt(1, userID);
 
-            ResultSet rs = gettingInfo.executeQuery();
+            ResultSet result = getting_info.executeQuery();
 
-            if (rs.next()) {
+            if (result.next()) {
 
-                setFirstName(rs.getString("user_first_name"));
-                setMiddleName(rs.getString("user_middle_name"));
-                setLastName(rs.getString("user_last_name"));
-                setExtensionName(rs.getString("user_name_extension"));
+                setFirstName(result.getString("user_first_name"));
+                setMiddleName(result.getString("user_middle_name"));
+                setLastName(result.getString("user_last_name"));
+                setExtensionName(result.getString("user_name_extension"));
 
-                setUsername(rs.getString("user_username"));
-                setEmail(rs.getString("user_email"));
-                setPassword(rs.getString("user_password"));
-                setPhoneNumber(rs.getString("user_phone_number"));
+                setUsername(result.getString("user_username"));
+                setEmail(result.getString("user_email"));
+                setPassword(result.getString("user_password"));
+                setPhoneNumber(result.getString("user_phone_number"));
 
-                setStreetPurok(rs.getString("purok_street"));
-                setMunicipalCity(rs.getString("municipal_city"));
-                setRegion(rs.getString("region"));
+                setStreetPurok(result.getString("purok_street"));
+                setMunicipalCity(result.getString("municipal_city"));
+                setRegion(result.getString("region"));
 
-                setBirthdate(rs.getString("user_birthdate"));
+                setBirthdate(result.getString("user_birthdate"));
             }
 
         } catch (SQLException e) {

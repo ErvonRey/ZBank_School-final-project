@@ -11,7 +11,7 @@ import DatabaseConnection.*;
 
 public class UserSession {
     
-    UserSession(){}
+    public UserSession(){}
     
     private static String currentUser;
     private static String currentUsername;
@@ -24,10 +24,9 @@ public class UserSession {
     public static double getCurrentUserBalance(){ return currentBalance; }
     public static double getCurrentInvestmentBalance(){ return currentInvestmentBalance; }
     
+    ManageUser mu = new ManageUser();
     
-    
-    
-    public static boolean isUsernameDuplicated(String username){
+    public boolean isUsernameDuplicated(String username){
         
         try (Connection connection = DBConnection.getConnection()) {
             
@@ -56,7 +55,7 @@ public class UserSession {
         return true;
     }
     
-    public static boolean checkLogin(String username, String password){
+    public boolean checkLogin(String username, String password){
         
         try (Connection connection = DBConnection.getConnection();){
             
@@ -76,7 +75,7 @@ public class UserSession {
                 
                 //getting user_id
                 int userID = result.getInt("user_id");
-                ManageUser.setUserID(userID);
+                mu.setUserID(userID);
                 
                 //getting bal_id
                 String SQLBalance = "SELECT bal_id FROM users_balance WHERE user_id = ?;";
@@ -86,7 +85,7 @@ public class UserSession {
                 
                 if (balResult.next()){
                     int balID = balResult.getInt("bal_id");
-                    ManageUser.setBalID(balID);
+                    mu.setBalID(balID);
                 }
                 
                 //Account matched
@@ -114,13 +113,13 @@ public class UserSession {
         return false;
     }
     
-    public static void logOut(){
+    public void logOut(){
         
-        ManageUser.clearSession();
+        mu.clearSession();
         
     }
     
-    public static boolean isPasswordValid(String password){
+    public boolean isPasswordValid(String password){
         
         if (password.length() <= 8) {
             
@@ -151,7 +150,7 @@ public class UserSession {
         return true;
     }
 
-    public static void getUserInformation(){
+    public void getUserInformation(){
         
         //bank_users table
         try (Connection connection = DBConnection.getConnection()){
@@ -171,7 +170,7 @@ public class UserSession {
             
             PreparedStatement getting_info = connection.prepareStatement(getting_info_SQL);
             
-            getting_info.setInt(1, ManageUser.getUserID());
+            getting_info.setInt(1, mu.getUserID());
             
             ResultSet getting_info_result = getting_info.executeQuery();
             
@@ -204,7 +203,7 @@ public class UserSession {
             
             PreparedStatement users_balance_result = connection.prepareStatement(SQLusers_balance_stmt);
             
-            users_balance_result.setInt(1, ManageUser.getBalID());
+            users_balance_result.setInt(1, mu.getBalID());
             
             ResultSet result = users_balance_result.executeQuery();
             

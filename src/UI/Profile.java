@@ -1,8 +1,9 @@
 package UI;
 
 import Core.Function;
-import User.FullInformation;
+import User.Data;
 import User.ManageUser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,6 +21,10 @@ public class Profile extends javax.swing.JFrame {
         loadData();
     }
 
+    Data data = new Data();
+    Function function = new Function();
+    ManageUser mu = new ManageUser();
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,6 +71,7 @@ public class Profile extends javax.swing.JFrame {
         tfPassword = new javax.swing.JPasswordField();
         rbSeePassword = new javax.swing.JRadioButton();
         btnDeleteAccount = new javax.swing.JButton();
+        refreshIcon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Profile");
@@ -411,8 +417,26 @@ public class Profile extends javax.swing.JFrame {
         btnDeleteAccount.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         btnDeleteAccount.setForeground(new java.awt.Color(255, 255, 255));
         btnDeleteAccount.setText("Delete Account");
+        btnDeleteAccount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteAccountActionPerformed(evt);
+            }
+        });
         panelBackground.add(btnDeleteAccount);
         btnDeleteAccount.setBounds(480, 400, 310, 30);
+
+        refreshIcon.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        refreshIcon.setForeground(new java.awt.Color(255, 255, 255));
+        refreshIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Refresh Icon.png"))); // NOI18N
+        refreshIcon.setText("Refresh");
+        refreshIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        refreshIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                refreshIconMouseClicked(evt);
+            }
+        });
+        panelBackground.add(refreshIcon);
+        refreshIcon.setBounds(0, 80, 80, 30);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -433,23 +457,20 @@ public class Profile extends javax.swing.JFrame {
     
     public void loadData(){
         
-        FullInformation fi = new FullInformation();
+        data.getInformation(mu.getUserID());
         
-        fi.getInformation(ManageUser.getUserID());
-        
-        String firstName = fi.getFirstName(),
-               middleName = fi.getMiddleName(),
-               lastName = fi.getLastName(),
-               nameExtension = fi.getExtensionName(),
-               PurStr = fi.getStreetPurok(),
-               MunCit = fi.getMunicipalCity(),
-               Region = fi.getRegion(),
-               username = fi.getUsername(),
-               email = fi.getEmail(),
-               password = fi.getPassword(),
-               phoneNumber = fi.getPhoneNumber(),
-               birthdate = fi.getBirthdate();
-        
+        String firstName = data.getFirstName(),
+               middleName = data.getMiddleName(),
+               lastName = data.getLastName(),
+               nameExtension = data.getExtensionName(),
+               PurStr = data.getStreetPurok(),
+               MunCit = data.getMunicipalCity(),
+               Region = data.getRegion(),
+               username = data.getUsername(),
+               email = data.getEmail(),
+               password = data.getPassword(),
+               phoneNumber = data.getPhoneNumber(),
+               birthdate = data.getBirthdate();
         
         tfFirstName.setText(firstName);
         tfMiddleName.setText(middleName);
@@ -510,7 +531,7 @@ public class Profile extends javax.swing.JFrame {
                 tempMunCit = tfMunicipalCity.getText().trim(),
                 tempRegion = tfRegion.getText().trim();
         
-        Function.updateAccount(
+        function.updateAccount(
                 tempPassword, tempFirstName, tempMiddleName, tempLastName, tempNameExtension, tempPurStr, tempMunCit, tempRegion
             );
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -521,6 +542,25 @@ public class Profile extends javax.swing.JFrame {
         home.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_lHomeNavMouseClicked
+
+    private void refreshIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshIconMouseClicked
+        loadData();
+    }//GEN-LAST:event_refreshIconMouseClicked
+
+    private void btnDeleteAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteAccountActionPerformed
+        // TODO add your handling code here:
+
+        int choice = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete your account?", "Confirmation", JOptionPane.YES_NO_OPTION);
+        
+        if (choice == JOptionPane.YES_OPTION) {
+            function.deleteAccount(mu.getUserID());
+            mu.clearSession();
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Account deletion cancelled.");
+        }
+        
+    }//GEN-LAST:event_btnDeleteAccountActionPerformed
 
     /**
      * @param args the command line arguments
@@ -573,6 +613,7 @@ public class Profile extends javax.swing.JFrame {
     private javax.swing.JPanel panelNavigation;
     private javax.swing.JPanel panelSearch;
     private javax.swing.JRadioButton rbSeePassword;
+    private javax.swing.JLabel refreshIcon;
     private javax.swing.JTextField tfBirthdate;
     private javax.swing.JTextField tfEmail;
     private javax.swing.JTextField tfFirstName;

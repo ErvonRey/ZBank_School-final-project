@@ -12,36 +12,9 @@ import User.ManageUser;
 
 public class Transaction {
     
-    private static int referenceNumber;
+    ManageUser mu = new ManageUser();
     
-    public static void autoGenerateReferenceNumber(){
-        
-        try (Connection connection = DBConnection.getConnection()) {
-            
-            PreparedStatement ps = connection.prepareStatement("SELECT reference_number FROM transactions ORDER BY reference_number DESC LIMIT 1");
-            
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                
-                int refNum = rs.getInt("reference_number");
-                int n = refNum + 1;
-                referenceNumber = n;
-                //encapsulation here
-                
-            } else {
-                
-                referenceNumber = 500;
-                //encapsulation here
-                //sets up the default lowest id value to 1000
-                
-            }
-        } catch (SQLException e) {
-            System.out.println("Error on database method(autoIncrement reference number): " + e.getMessage());
-        }
-    }
-    
-    public static double getBalanceFrom(int ID){
+    public double getBalanceFrom(int ID){
         
         try (Connection connection = DBConnection.getConnection();) {
             
@@ -67,13 +40,13 @@ public class Transaction {
     }
     
     //for the PaymentMethod class
-    public static void paymentDeduction(){
+    public void paymentDeduction(){
         
     }
 
-    public static void sendMoney(double amount, int ID){
+    public void sendMoney(double amount, int ID){
         
-        double currentBalance = getBalanceFrom(ManageUser.getUserID());
+        double currentBalance = getBalanceFrom(mu.getUserID());
         
         if (amount > currentBalance){
             JOptionPane.showMessageDialog(null, "Failed to send. Not enough balance!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
@@ -116,7 +89,7 @@ public class Transaction {
             PreparedStatement deductMoney = connection.prepareStatement(SQLDeductMoney);
             
             deductMoney.setDouble(1, amount);
-            deductMoney.setInt(2, ManageUser.getUserID());
+            deductMoney.setInt(2, mu.getUserID());
             
             deductMoney.executeUpdate();
             
@@ -125,7 +98,9 @@ public class Transaction {
             JOptionPane.showMessageDialog(null, "Transaction Completed.");
             
             //record transaction -- database
-            sendMoneyTransaction(ID, amount);
+            //encapsulation here
+            Record write = new Record();
+            write.sendMoneyTransaction(ID, amount);
             
         } catch (SQLException e) {
             if (connection != null) {
@@ -149,9 +124,9 @@ public class Transaction {
         
     }
     
-    public static void sendMoney(double amount, String username){
+    public void sendMoney(double amount, String username){
         
-        double currentBalance = getBalanceFrom(ManageUser.getUserID());
+        double currentBalance = getBalanceFrom(mu.getUserID());
         
         if (amount > currentBalance){
             JOptionPane.showMessageDialog(null, "Failed to send. Not enough balance!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
@@ -197,14 +172,14 @@ public class Transaction {
         
     }
     
-    public static void withdrawCash(double amount){
+    public void withdrawCash(double amount){
         
         if (amount <= 0) {
             JOptionPane.showMessageDialog(null, "Failed to withdraw. Enter a positive value you cheeky bastard!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        double currentBalance = getBalanceFrom(ManageUser.getUserID());
+        double currentBalance = getBalanceFrom(mu.getUserID());
         
         if (amount > currentBalance){
             JOptionPane.showMessageDialog(null, "Failed to withdraw. Not enough balance!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
@@ -218,7 +193,7 @@ public class Transaction {
             PreparedStatement withdrawing = connection.prepareStatement(SQLWithdraw);
             
             withdrawing.setDouble(1, amount);
-            withdrawing.setDouble(2, ManageUser.getUserID());
+            withdrawing.setDouble(2, mu.getUserID());
             
             withdrawing.executeUpdate();
             
@@ -230,7 +205,7 @@ public class Transaction {
         
     }
     
-    public static void depositCash(double amount){
+    public void depositCash(double amount){
         
         if (amount <= 0){
             JOptionPane.showMessageDialog(null, "Failed to deposit. Invalid amount!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
@@ -244,7 +219,7 @@ public class Transaction {
             PreparedStatement depositing = connection.prepareStatement(SQLDeposit);
             
             depositing.setDouble(1, amount);
-            depositing.setDouble(2, ManageUser.getUserID());
+            depositing.setDouble(2, mu.getUserID());
             
             depositing.executeUpdate();
             
@@ -256,9 +231,9 @@ public class Transaction {
         
     }
     
-    public static void investMoney(double amount){
+    public void investMoney(double amount){
         
-        double currentBalance = getBalanceFrom(ManageUser.getUserID());
+        double currentBalance = getBalanceFrom(mu.getUserID());
         
         if (amount > currentBalance){
             JOptionPane.showMessageDialog(null, "Failed to invest. Not enough balance!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
@@ -272,7 +247,7 @@ public class Transaction {
             PreparedStatement investing = connection.prepareStatement(SQLDeducting);
             
             investing.setDouble(1, amount);
-            investing.setDouble(2, ManageUser.getUserID());
+            investing.setDouble(2, mu.getUserID());
             
             investing.executeUpdate();
             
@@ -281,7 +256,7 @@ public class Transaction {
             PreparedStatement adding = connection.prepareStatement(SQLAdding);
             
             adding.setDouble(1, amount);
-            adding.setDouble(2, ManageUser.getUserID());
+            adding.setDouble(2, mu.getUserID());
             
             adding.executeUpdate();
             
@@ -289,29 +264,6 @@ public class Transaction {
             
         } catch (SQLException e) {
             System.out.println("Error on database method(sendMoney username): " + e.getMessage());
-        }
-        
-    }
-    
-    public static void sendMoneyTransaction(int userSentTo, double amountSent){
-        
-        try (Connection connection = DBConnection.getConnection()){
-            
-            String transacEntrySQL = "INSERT INTO transactions(type_of_transaction, reference_number, performed_by, sent_to, amount_sent, date_performed)"
-                    + "VALUES (?,?,?,?,?, NOW())";
-            
-            PreparedStatement transacEntryPerform = connection.prepareStatement(transacEntrySQL);
-            
-            transacEntryPerform.setString(1, "Sent Money");
-            transacEntryPerform.setInt(2, referenceNumber);
-            transacEntryPerform.setInt(3, ManageUser.getUserID());
-            transacEntryPerform.setInt(4, userSentTo);
-            transacEntryPerform.setDouble(5, amountSent);
-            
-            transacEntryPerform.executeUpdate();
-            
-        } catch (SQLException e) {
-            System.out.println("Error on database method(sendMoney transaction history): " + e.getMessage());
         }
         
     }

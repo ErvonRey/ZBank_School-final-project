@@ -14,6 +14,8 @@ public class Login extends javax.swing.JFrame {
         initComponents();
     }
     
+    UserSession us = new UserSession();
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -244,7 +246,7 @@ public class Login extends javax.swing.JFrame {
         String username = tfUsername.getText();
         String password = tfPassword.getText();
         
-        boolean isLoginValid = UserSession.checkLogin(username, password);
+        boolean isLoginValid = us.checkLogin(username, password);
         
         if (isLoginValid) {
             

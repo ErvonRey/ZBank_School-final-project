@@ -4,7 +4,6 @@ import Core.Function;
 import javax.swing.JOptionPane;
 
 import User.*;
-import static User.UserSession.isPasswordValid;
 import java.awt.Color;
 
 public class SignUp extends javax.swing.JFrame {
@@ -14,6 +13,9 @@ public class SignUp extends javax.swing.JFrame {
     public SignUp() {
         initComponents();
     }
+    
+    UserSession us = new UserSession();
+    Function function = new Function();
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -96,6 +98,11 @@ public class SignUp extends javax.swing.JFrame {
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 tfUsernameMouseEntered(evt);
+            }
+        });
+        tfUsername.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tfUsernameKeyReleased(evt);
             }
         });
 
@@ -483,7 +490,7 @@ public class SignUp extends javax.swing.JFrame {
         if (isAccountValid()) {
             
             
-            Function.addAccount(
+            function.addAccount(
                     
                     username, email, password, phoneNumber,
                     firstName, middleName, lastName, nameExtension,
@@ -498,7 +505,7 @@ public class SignUp extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCreateAccountActionPerformed
 
     private void tfUsernameMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfUsernameMouseEntered
-        checkingUsername();
+        
     }//GEN-LAST:event_tfUsernameMouseEntered
 
     private void lErrorMessageMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lErrorMessageMouseExited
@@ -508,6 +515,11 @@ public class SignUp extends javax.swing.JFrame {
     private void tfUsernameMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tfUsernameMouseClicked
         //dont use this, it might flood the workbench
     }//GEN-LAST:event_tfUsernameMouseClicked
+
+    private void tfUsernameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfUsernameKeyReleased
+        // TODO add your handling code here:
+        checkingUsername();
+    }//GEN-LAST:event_tfUsernameKeyReleased
 
     private boolean isBirthdateValid(){
         
@@ -530,11 +542,11 @@ public class SignUp extends javax.swing.JFrame {
     
     private boolean isAccountValid(){
         
-        if (isPasswordValid(tfPassword.getText().trim()) == false){
+        if (us.isPasswordValid(tfPassword.getText().trim()) == false){
             return false;
         }
         
-        if (UserSession.isUsernameDuplicated(tfUsername.getText())){
+        if (us.isUsernameDuplicated(tfUsername.getText())){
             return false;
         }
         
@@ -577,7 +589,7 @@ public class SignUp extends javax.swing.JFrame {
     
     public void checkingUsername() {
         
-        boolean duplicatedUsername = UserSession.isUsernameDuplicated(tfUsername.getText().trim());
+        boolean duplicatedUsername = us.isUsernameDuplicated(tfUsername.getText().trim());
         
         if (tfUsername.getText().trim().isEmpty()) {
             lErrorMessage.setText("");
