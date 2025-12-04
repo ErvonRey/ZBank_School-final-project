@@ -11,8 +11,6 @@ package User;
 
 public class ManageUser {
     
-    ManageUser(){}
-    
     private static int currentUserID;
     private static int currentBalanceID;
     

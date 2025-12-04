@@ -435,7 +435,7 @@ public class Profile extends javax.swing.JFrame {
         
         FullInformation fi = new FullInformation();
         
-        fi.getInformation(ManageUser.getUserID());
+        fi.getInformation();
         
         String firstName = fi.getFirstName(),
                middleName = fi.getMiddleName(),

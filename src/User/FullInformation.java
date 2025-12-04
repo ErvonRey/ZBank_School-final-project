@@ -50,7 +50,9 @@ public class FullInformation {
     public String getBirthdate(){ return birthdate; }
 
     // ======= FETCHING INFO =======
-    public void getInformation(int userID){
+    public void getInformation(){
+        
+        int userID = ManageUser.getUserID();
 
         try (Connection connection = DBConnection.getConnection()) {
 

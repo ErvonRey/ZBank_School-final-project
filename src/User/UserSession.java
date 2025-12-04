@@ -11,8 +11,6 @@ import DatabaseConnection.*;
 
 public class UserSession {
     
-    UserSession(){}
-    
     private static String currentUser;
     private static String currentUsername;
     private static double currentBalance;
@@ -23,9 +21,6 @@ public class UserSession {
     public static String getCurrentUser(){ return currentUser; }
     public static double getCurrentUserBalance(){ return currentBalance; }
     public static double getCurrentInvestmentBalance(){ return currentInvestmentBalance; }
-    
-    
-    
     
     public static boolean isUsernameDuplicated(String username){
         
