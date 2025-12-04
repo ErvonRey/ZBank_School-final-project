@@ -61,7 +61,7 @@ public class PaymentMethod {
         }
     }
 
-    // Default method, can be overridden
+    //this is the default method, can be overridden using polymorphism
     public void pay(double value) {
         payHelper(value, "Generic");
     }
