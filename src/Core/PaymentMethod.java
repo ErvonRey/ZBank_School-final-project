@@ -11,153 +11,72 @@ import javax.swing.JOptionPane;
 
 public class PaymentMethod {
     
-    private double balance;
-    
-    public void refreshBalance(){
+    protected double balance;
+
+    public void refreshBalance() {
         
-        try (Connection connection = DBConnection.getConnection()){
+        try (Connection connection = DBConnection.getConnection()) {
             
             String SQLgetBalance = "SELECT user_balance FROM users_balance WHERE user_id = ?";
+            PreparedStatement stmt = connection.prepareStatement(SQLgetBalance);
+            stmt.setInt(1, ManageUser.getUserID());
+            ResultSet result = stmt.executeQuery();
             
-            PreparedStatement gettingBalance = connection.prepareStatement(SQLgetBalance);
-            
-            gettingBalance.setInt(1, ManageUser.getUserID());
-            
-            ResultSet result = gettingBalance.executeQuery();
-            
-            if (result.next()){
-                
+            if (result.next()) {
                 balance = result.getDouble("user_balance");
-                
             }
             
         } catch (SQLException e) {
-            System.out.println("Error on database method(refreshBalance): " + e.getMessage());
+            System.out.println("Error on refreshBalance: " + e.getMessage());
         }
-        
     }
-    
-    public double getBalance(){
+
+    public double getBalance() {
         return balance;
     }
-    
-    public void payHelper(double value){
+
+    //template method for all subclasses uses this
+    public void payHelper(double value, String methodName) {
         
-        //deduct what they paid for
-        double currentBalance = getBalance();
+        refreshBalance();
         
-        if (value > currentBalance){
-            JOptionPane.showMessageDialog(null, "Failed to pay using generic method. Not enough balance!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
+        if (value > balance) {
+            
+            JOptionPane.showMessageDialog(null, "Failed to pay using " + methodName + ". Not enough balance!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
             return;
+            
         }
-        
-        try (Connection connection = DBConnection.getConnection();){
+
+        try (Connection connection = DBConnection.getConnection()) {
             
             String SQLPay = "UPDATE users_balance SET user_balance = user_balance - ? WHERE user_id = ?";
-            
-            PreparedStatement paying = connection.prepareStatement(SQLPay);
-            
-            paying.setDouble(1, value);
-            paying.setDouble(2, ManageUser.getUserID());
-            
-            paying.executeUpdate();
-            
-            JOptionPane.showMessageDialog(null, "Generic Payment Successful.");
+            PreparedStatement stmt = connection.prepareStatement(SQLPay);
+            stmt.setDouble(1, value);
+            stmt.setInt(2, ManageUser.getUserID());
+            stmt.executeUpdate();
+            JOptionPane.showMessageDialog(null, methodName + " Payment Successful.");
             
         } catch (SQLException e) {
-            System.out.println("Error on database method(sendMoney username): " + e.getMessage());
+            System.out.println("Error on payment: " + e.getMessage());
         }
-        
     }
-    
-    public static void paying(double amount){
-        
-        PaymentMethod pay = new PaymentMethod();
-        
-        pay.payHelper(amount);
-        
+
+    // Default method, can be overridden
+    public void pay(double value) {
+        payHelper(value, "Generic");
     }
-    
 }
 
-class PaymentPaypal extends PaymentMethod{
-    
-    public void payHelper(double value){
-        
-        //deduct what they paid for
-        double currentBalance = getBalance();
-        
-        if (value > currentBalance){
-            JOptionPane.showMessageDialog(null, "Failed to pay using Paypal. Not enough balance!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        try (Connection connection = DBConnection.getConnection();){
-            
-            String SQLPay = "UPDATE users_balance SET user_balance = user_balance - ? WHERE user_id = ?";
-            
-            PreparedStatement paying = connection.prepareStatement(SQLPay);
-            
-            paying.setDouble(1, value);
-            paying.setDouble(2, ManageUser.getUserID());
-            
-            paying.executeUpdate();
-            
-            JOptionPane.showMessageDialog(null, "Paypal Payment Successful.");
-            
-        } catch (SQLException e) {
-            System.out.println("Error on database method(sendMoney username): " + e.getMessage());
-        }
-        
+class PaymentPaypal extends PaymentMethod {
+    @Override
+    public void pay(double value) {
+        payHelper(value, "Paypal");
     }
-    
-    public static void paying(double amount){
-        
-        PaymentPaypal pay = new PaymentPaypal();
-        
-        pay.payHelper(amount);
-        
-    }
-    
 }
 
-class PaymentCard extends PaymentMethod{
-    
-    public void payHelper(double value){
-        
-        //deduct what they paid for
-        double currentBalance = getBalance();
-        
-        if (value > currentBalance){
-            JOptionPane.showMessageDialog(null, "Failed to pay using Card. Not enough balance!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        try (Connection connection = DBConnection.getConnection();){
-            
-            String SQLPay = "UPDATE users_balance SET user_balance = user_balance - ? WHERE user_id = ?";
-            
-            PreparedStatement paying = connection.prepareStatement(SQLPay);
-            
-            paying.setDouble(1, value);
-            paying.setDouble(2, ManageUser.getUserID());
-            
-            paying.executeUpdate();
-            
-            JOptionPane.showMessageDialog(null, "Card Payment Successful.");
-            
-        } catch (SQLException e) {
-            System.out.println("Error on database method(sendMoney username): " + e.getMessage());
-        }
-        
+class PaymentCard extends PaymentMethod {
+    @Override
+    public void pay(double value) {
+        payHelper(value, "Card");
     }
-    
-    public static void paying(double amount){
-        
-        PaymentCard pay = new PaymentCard();
-        
-        pay.payHelper(amount);
-        
-    }
-    
 }

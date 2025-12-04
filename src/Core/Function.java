@@ -165,7 +165,7 @@ public class Function {
             bank_users.executeUpdate();
             
             //for the users_information table
-            String users_information_SQL = "UPDATE users_information SET user_first_name = ?, user_middle_name = ?"
+            String users_information_SQL = "UPDATE users_information SET user_first_name = ?, user_middle_name = ?,"
                     + "user_last_name = ?, user_name_extension = ? WHERE user_id = ?";
             PreparedStatement users_information = connection.prepareStatement(users_information_SQL);
             
@@ -178,7 +178,7 @@ public class Function {
             users_information.executeUpdate();
             
             //for the users_address table
-            String users_address_SQL = "UPDATE users_address SET purok_street = ?, municipal_city = ?"
+            String users_address_SQL = "UPDATE users_address SET purok_street = ?, municipal_city = ?,"
                     + "region = ? WHERE user_id = ?";
             PreparedStatement users_address = connection.prepareStatement(users_address_SQL);
             
@@ -205,13 +205,15 @@ public class Function {
         
         try (Connection connection = DBConnection.getConnection();) {
             
-        String bank_users_SQL = "SELECT u.user_id, u.user_username, u.user_status,\n" +
-                                "       i.user_first_name, i.user_middle_name, i.user_last_name, i.user_name_extension, i.user_birthdate, i.user_phone_number,\n" +
-                                "       a.purok_street, a.municipal_city, a.region\n" +
-                                "FROM bank_users u\n" +
-                                "LEFT JOIN users_information i ON u.user_id = i.user_id\n" +
-                                "LEFT JOIN users_address a ON u.user_id = a.user_id\n" +
-                                "WHERE u.user_id = ?;";
+        String bank_users_SQL =
+                
+                "SELECT u.user_id, u.user_username, u.user_status,\n" +
+                "       i.user_first_name, i.user_middle_name, i.user_last_name, i.user_name_extension, i.user_birthdate, i.user_phone_number,\n" +
+                "       a.purok_street, a.municipal_city, a.region\n" +
+                "FROM bank_users u\n" +
+                "LEFT JOIN users_information i ON u.user_id = i.user_id\n" +
+                "LEFT JOIN users_address a ON u.user_id = a.user_id\n" +
+                "WHERE u.user_id = ?;";
         
         PreparedStatement search_SQL = connection.prepareStatement(bank_users_SQL);
 
@@ -229,7 +231,7 @@ public class Function {
             if (middleName == null) middleName = ""; //if the middle name is null make it blank
             lastName = search_result.getString("user_last_name");
             nameExtension = search_result.getString("user_name_extension");
-            if (nameExtension == null) nameExtension = ""; //same as the middle name concept
+            if (nameExtension == null) nameExtension = ""; //same as the middle name idea, so it wont be null
             birthdate = search_result.getString("user_birthdate");
             phoneNumber = search_result.getString("user_phone_number");
             PurStr = search_result.getString("purok_street");
