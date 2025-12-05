@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-public class FullInformation {
+public class Data {
 
     private String firstName;
     private String middleName;
@@ -67,28 +67,28 @@ public class FullInformation {
                 "LEFT JOIN users_address a ON u.user_id = a.user_id " +
                 "WHERE u.user_id = ?;";
 
-            PreparedStatement gettingInfo = connection.prepareStatement(getting_info_SQL);
-            gettingInfo.setInt(1, userID);
+            PreparedStatement getting_info = connection.prepareStatement(getting_info_SQL);
+            getting_info.setInt(1, userID);
 
-            ResultSet rs = gettingInfo.executeQuery();
+            ResultSet data = getting_info.executeQuery();
 
-            if (rs.next()) {
+            if (data.next()) {
 
-                setFirstName(rs.getString("user_first_name"));
-                setMiddleName(rs.getString("user_middle_name"));
-                setLastName(rs.getString("user_last_name"));
-                setExtensionName(rs.getString("user_name_extension"));
+                setFirstName(data.getString("user_first_name"));
+                setMiddleName(data.getString("user_middle_name"));
+                setLastName(data.getString("user_last_name"));
+                setExtensionName(data.getString("user_name_extension"));
 
-                setUsername(rs.getString("user_username"));
-                setEmail(rs.getString("user_email"));
-                setPassword(rs.getString("user_password"));
-                setPhoneNumber(rs.getString("user_phone_number"));
+                setUsername(data.getString("user_username"));
+                setEmail(data.getString("user_email"));
+                setPassword(data.getString("user_password"));
+                setPhoneNumber(data.getString("user_phone_number"));
 
-                setStreetPurok(rs.getString("purok_street"));
-                setMunicipalCity(rs.getString("municipal_city"));
-                setRegion(rs.getString("region"));
+                setStreetPurok(data.getString("purok_street"));
+                setMunicipalCity(data.getString("municipal_city"));
+                setRegion(data.getString("region"));
 
-                setBirthdate(rs.getString("user_birthdate"));
+                setBirthdate(data.getString("user_birthdate"));
             }
 
         } catch (SQLException e) {

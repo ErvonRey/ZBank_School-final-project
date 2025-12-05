@@ -20,6 +20,8 @@ public class Deposit extends javax.swing.JFrame {
         loadData();
     }
     
+    private Transaction transac = new Transaction();
+    
     private void loadData(){
         
         UserSession.getUserInformation();
@@ -122,7 +124,7 @@ public class Deposit extends javax.swing.JFrame {
         if (!tfDepositAmount.getText().trim().isEmpty()){
             
             double depositAmount = Double.parseDouble(tfDepositAmount.getText().trim());
-            Transaction.depositCash(depositAmount);
+            transac.depositCash(depositAmount);
             this.dispose();
             
         } else {

@@ -20,6 +20,8 @@ public class SendMoney extends javax.swing.JFrame {
         loadData();
     }
     
+    private Transaction transac = new Transaction();
+    
     private void loadData(){
         
         UserSession.getUserInformation();
@@ -146,10 +148,10 @@ public class SendMoney extends javax.swing.JFrame {
             String sendTo = tfSendTo.getText().trim();
             
             if (sendTo.matches("\\d+")){
-                Transaction.sendMoney(sendAmount, Integer.parseInt(sendTo));
+                transac.sendMoney(sendAmount, Integer.parseInt(sendTo));
                 //AMOUNT, ID
             } else if (sendTo.matches("[a-zA-Z0-9]+")) {
-                Transaction.sendMoney(sendAmount, sendTo);
+                transac.sendMoney(sendAmount, sendTo);
                 //AMOUNT, USERNAME
             } else {
                 String errorMessage = "Invalid input, please enter a valid username or ID.";

@@ -1,5 +1,8 @@
 package UI;
 
+import Core.Function;
+import User.UserSession;
+
 /**
  *
  * @author Mellisa
@@ -24,26 +27,278 @@ public class Search extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelBG = new javax.swing.JPanel();
+        lFirstName = new javax.swing.JLabel();
+        panelNavigation = new javax.swing.JPanel();
+        lSearchImage = new javax.swing.JLabel();
+        lSearchIcon = new javax.swing.JLabel();
+        panelSearch = new javax.swing.JPanel();
+        lProfileNav = new javax.swing.JLabel();
+        panelInvestment = new javax.swing.JPanel();
+        lInvestmentNav = new javax.swing.JLabel();
+        panelProfile = new javax.swing.JPanel();
+        lHomeNav = new javax.swing.JLabel();
+        tfSearch = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
+        logoutIcon = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(850, 600));
-        setMinimumSize(new java.awt.Dimension(850, 600));
+        setTitle("Search");
+        setMaximumSize(new java.awt.Dimension(850, 300));
+        setMinimumSize(new java.awt.Dimension(850, 300));
+        setPreferredSize(new java.awt.Dimension(850, 300));
         setResizable(false);
-        setSize(new java.awt.Dimension(850, 600));
+        setSize(new java.awt.Dimension(850, 300));
+
+        panelBG.setBackground(new java.awt.Color(51, 51, 51));
+        panelBG.setLayout(null);
+
+        lFirstName.setFont(new java.awt.Font("Consolas", 0, 24)); // NOI18N
+        lFirstName.setForeground(new java.awt.Color(255, 255, 255));
+        lFirstName.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        lFirstName.setText("Username or ID:");
+        panelBG.add(lFirstName);
+        lFirstName.setBounds(40, 190, 220, 40);
+
+        panelNavigation.setBackground(new java.awt.Color(102, 102, 102));
+        panelNavigation.setLayout(null);
+
+        lSearchImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Search Icon.png"))); // NOI18N
+        panelNavigation.add(lSearchImage);
+        lSearchImage.setBounds(10, 10, 60, 60);
+
+        lSearchIcon.setBackground(new java.awt.Color(255, 255, 255));
+        lSearchIcon.setFont(new java.awt.Font("Consolas", 1, 48)); // NOI18N
+        lSearchIcon.setForeground(new java.awt.Color(255, 255, 255));
+        lSearchIcon.setText("Search");
+        panelNavigation.add(lSearchIcon);
+        lSearchIcon.setBounds(90, 30, 160, 50);
+
+        panelSearch.setBackground(new java.awt.Color(255, 255, 255));
+        panelSearch.setForeground(new java.awt.Color(255, 255, 255));
+
+        lProfileNav.setBackground(new java.awt.Color(255, 255, 255));
+        lProfileNav.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        lProfileNav.setForeground(new java.awt.Color(51, 51, 51));
+        lProfileNav.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lProfileNav.setText("Profile");
+        lProfileNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lProfileNav.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lProfileNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lProfileNavMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lProfileNavMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lProfileNavMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelSearchLayout = new javax.swing.GroupLayout(panelSearch);
+        panelSearch.setLayout(panelSearchLayout);
+        panelSearchLayout.setHorizontalGroup(
+            panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelSearchLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lProfileNav)
+                .addGap(17, 17, 17))
+        );
+        panelSearchLayout.setVerticalGroup(
+            panelSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lProfileNav, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        panelNavigation.add(panelSearch);
+        panelSearch.setBounds(730, 50, 83, 30);
+
+        panelInvestment.setBackground(new java.awt.Color(255, 255, 255));
+
+        lInvestmentNav.setBackground(new java.awt.Color(255, 255, 255));
+        lInvestmentNav.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        lInvestmentNav.setForeground(new java.awt.Color(51, 51, 51));
+        lInvestmentNav.setText("Investment");
+        lInvestmentNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lInvestmentNav.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lInvestmentNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lInvestmentNavMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lInvestmentNavMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lInvestmentNavMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelInvestmentLayout = new javax.swing.GroupLayout(panelInvestment);
+        panelInvestment.setLayout(panelInvestmentLayout);
+        panelInvestmentLayout.setHorizontalGroup(
+            panelInvestmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInvestmentLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(lInvestmentNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelInvestmentLayout.setVerticalGroup(
+            panelInvestmentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lInvestmentNav, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        panelNavigation.add(panelInvestment);
+        panelInvestment.setBounds(600, 50, 120, 30);
+
+        panelProfile.setBackground(new java.awt.Color(255, 255, 255));
+
+        lHomeNav.setBackground(new java.awt.Color(255, 255, 255));
+        lHomeNav.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        lHomeNav.setForeground(new java.awt.Color(51, 51, 51));
+        lHomeNav.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lHomeNav.setText("Home");
+        lHomeNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lHomeNav.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        lHomeNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lHomeNavMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lHomeNavMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lHomeNavMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelProfileLayout = new javax.swing.GroupLayout(panelProfile);
+        panelProfile.setLayout(panelProfileLayout);
+        panelProfileLayout.setHorizontalGroup(
+            panelProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelProfileLayout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addComponent(lHomeNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelProfileLayout.setVerticalGroup(
+            panelProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lHomeNav, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        panelNavigation.add(panelProfile);
+        panelProfile.setBounds(500, 50, 90, 30);
+
+        panelBG.add(panelNavigation);
+        panelNavigation.setBounds(0, 0, 850, 80);
+
+        tfSearch.setBackground(new java.awt.Color(102, 102, 102));
+        tfSearch.setFont(new java.awt.Font("Consolas", 0, 24)); // NOI18N
+        tfSearch.setForeground(new java.awt.Color(255, 255, 255));
+        panelBG.add(tfSearch);
+        tfSearch.setBounds(260, 190, 400, 40);
+
+        btnSearch.setBackground(new java.awt.Color(102, 102, 102));
+        btnSearch.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        btnSearch.setForeground(new java.awt.Color(255, 255, 255));
+        btnSearch.setText("Search");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+        panelBG.add(btnSearch);
+        btnSearch.setBounds(680, 190, 120, 40);
+
+        logoutIcon.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        logoutIcon.setForeground(new java.awt.Color(255, 255, 255));
+        logoutIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Logout Logo.png"))); // NOI18N
+        logoutIcon.setText("Log-out");
+        logoutIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        logoutIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoutIconMouseClicked(evt);
+            }
+        });
+        panelBG.add(logoutIcon);
+        logoutIcon.setBounds(760, 90, 74, 25);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 850, Short.MAX_VALUE)
+            .addComponent(panelBG, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelBG, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(864, 308));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void lProfileNavMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lProfileNavMouseEntered
+        lProfileNav.setText("<html><u>" + "Profile" + "<u/><html>");
+    }//GEN-LAST:event_lProfileNavMouseEntered
+
+    private void lProfileNavMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lProfileNavMouseExited
+        lProfileNav.setText("Profile");
+    }//GEN-LAST:event_lProfileNavMouseExited
+
+    private void lInvestmentNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lInvestmentNavMouseClicked
+        // TODO add your handling code here:
+        Investment investment = new Investment();
+        investment.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lInvestmentNavMouseClicked
+
+    private void lInvestmentNavMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lInvestmentNavMouseEntered
+        lInvestmentNav.setText("<html><u>" + "Investment" + "<u/><html>");
+    }//GEN-LAST:event_lInvestmentNavMouseEntered
+
+    private void lInvestmentNavMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lInvestmentNavMouseExited
+        lInvestmentNav.setText("Investment");
+    }//GEN-LAST:event_lInvestmentNavMouseExited
+
+    private void lHomeNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lHomeNavMouseClicked
+        // TODO add your handling code here:
+        Home home = new Home();
+        home.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lHomeNavMouseClicked
+
+    private void lHomeNavMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lHomeNavMouseEntered
+        lHomeNav.setText("<html><u>" + "Home" + "<u/><html>");
+    }//GEN-LAST:event_lHomeNavMouseEntered
+
+    private void lHomeNavMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lHomeNavMouseExited
+        lHomeNav.setText("Home");
+    }//GEN-LAST:event_lHomeNavMouseExited
+
+    private void lProfileNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lProfileNavMouseClicked
+        // TODO add your handling code here:
+        Profile profile = new Profile();
+        profile.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lProfileNavMouseClicked
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+        Function function = new Function();
+        
+        if (tfSearch.getText().matches("\\d+")) {
+            function.searchAccount(Integer.parseInt(tfSearch.getText().trim()));
+        } else {
+            function.searchAccount(tfSearch.getText().trim());
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void logoutIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutIconMouseClicked
+        UserSession.logOut();
+        this.dispose();
+    }//GEN-LAST:event_logoutIconMouseClicked
 
     /**
      * @param args the command line arguments
@@ -71,5 +326,19 @@ public class Search extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSearch;
+    private javax.swing.JLabel lFirstName;
+    private javax.swing.JLabel lHomeNav;
+    private javax.swing.JLabel lInvestmentNav;
+    private javax.swing.JLabel lProfileNav;
+    private javax.swing.JLabel lSearchIcon;
+    private javax.swing.JLabel lSearchImage;
+    private javax.swing.JLabel logoutIcon;
+    private javax.swing.JPanel panelBG;
+    private javax.swing.JPanel panelInvestment;
+    private javax.swing.JPanel panelNavigation;
+    private javax.swing.JPanel panelProfile;
+    private javax.swing.JPanel panelSearch;
+    private javax.swing.JTextField tfSearch;
     // End of variables declaration//GEN-END:variables
 }

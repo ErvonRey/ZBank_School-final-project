@@ -20,6 +20,8 @@ public class Withdraw extends javax.swing.JFrame {
         loadData();
     }
     
+    private Transaction transac = new Transaction();
+    
     private void loadData(){
         
         UserSession.getUserInformation();
@@ -123,7 +125,7 @@ public class Withdraw extends javax.swing.JFrame {
         if (!tfWithdrawAmount.getText().trim().isEmpty()){
             
             double withdrawalAmount = Double.parseDouble(tfWithdrawAmount.getText().trim());
-            Transaction.withdrawCash(withdrawalAmount);
+            transac.withdrawCash(withdrawalAmount);
             this.dispose();
             
         } else {

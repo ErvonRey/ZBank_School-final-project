@@ -1,5 +1,8 @@
 package User;
 
+import UI.Login;
+import javax.swing.JOptionPane;
+
 /*
 
     This is for the creation of the account, its different from the session
@@ -33,6 +36,11 @@ public class ManageUser {
     public static void clearSession(){
         currentUserID = -1;
         currentBalanceID = -1;
+        
+        Login login = new Login();
+        login.setVisible(true);
+        
+        JOptionPane.showMessageDialog(null, "Successfully logged off!");
     }
     
 }

@@ -57,6 +57,7 @@ public class Home extends javax.swing.JFrame {
         btnPay = new javax.swing.JButton();
         btnDeposit = new javax.swing.JButton();
         lUsername = new javax.swing.JLabel();
+        logoutIcon = new javax.swing.JLabel();
         refreshIcon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -94,6 +95,9 @@ public class Home extends javax.swing.JFrame {
         lSearchNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lSearchNav.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lSearchNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lSearchNavMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lSearchNavMouseEntered(evt);
             }
@@ -128,6 +132,9 @@ public class Home extends javax.swing.JFrame {
         lInvestmentNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lInvestmentNav.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lInvestmentNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lInvestmentNavMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lInvestmentNavMouseEntered(evt);
             }
@@ -256,6 +263,11 @@ public class Home extends javax.swing.JFrame {
         btnPay.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
         btnPay.setForeground(new java.awt.Color(255, 255, 255));
         btnPay.setText("Pay");
+        btnPay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPayActionPerformed(evt);
+            }
+        });
         panelBackground.add(btnPay);
         btnPay.setBounds(50, 490, 360, 50);
 
@@ -278,6 +290,19 @@ public class Home extends javax.swing.JFrame {
         panelBackground.add(lUsername);
         lUsername.setBounds(20, 200, 810, 20);
 
+        logoutIcon.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        logoutIcon.setForeground(new java.awt.Color(255, 255, 255));
+        logoutIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Logout Logo.png"))); // NOI18N
+        logoutIcon.setText("Log-out");
+        logoutIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        logoutIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoutIconMouseClicked(evt);
+            }
+        });
+        panelBackground.add(logoutIcon);
+        logoutIcon.setBounds(770, 80, 80, 30);
+
         refreshIcon.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         refreshIcon.setForeground(new java.awt.Color(255, 255, 255));
         refreshIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Refresh Icon.png"))); // NOI18N
@@ -289,7 +314,7 @@ public class Home extends javax.swing.JFrame {
             }
         });
         panelBackground.add(refreshIcon);
-        refreshIcon.setBounds(10, 90, 80, 30);
+        refreshIcon.setBounds(0, 80, 80, 30);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -356,6 +381,31 @@ public class Home extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_lProfileNavMouseClicked
 
+    private void logoutIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutIconMouseClicked
+        UserSession.logOut();
+        this.dispose();
+    }//GEN-LAST:event_logoutIconMouseClicked
+
+    private void lInvestmentNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lInvestmentNavMouseClicked
+        // TODO add your handling code here:
+        Investment investment = new Investment();
+        investment.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lInvestmentNavMouseClicked
+
+    private void lSearchNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lSearchNavMouseClicked
+        // TODO add your handling code here:
+        Search search = new Search();
+        search.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lSearchNavMouseClicked
+
+    private void btnPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayActionPerformed
+        // TODO add your handling code here:\
+        Pay pay = new Pay();
+        pay.setVisible(true);
+    }//GEN-LAST:event_btnPayActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -397,6 +447,7 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel lProfileNav;
     private javax.swing.JLabel lSearchNav;
     private javax.swing.JLabel lUsername;
+    private javax.swing.JLabel logoutIcon;
     private javax.swing.JPanel panelBackground;
     private javax.swing.JPanel panelInvestment;
     private javax.swing.JPanel panelNavigation;

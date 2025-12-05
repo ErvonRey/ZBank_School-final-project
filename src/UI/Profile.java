@@ -1,8 +1,8 @@
 package UI;
 
 import Core.Function;
-import User.FullInformation;
-import User.ManageUser;
+import User.Data;
+import User.UserSession;
 
 /**
  *
@@ -19,6 +19,8 @@ public class Profile extends javax.swing.JFrame {
         initComponents();
         loadData();
     }
+    
+    private Function function = new Function();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,6 +41,8 @@ public class Profile extends javax.swing.JFrame {
         lInvestmentNav = new javax.swing.JLabel();
         panelHome = new javax.swing.JPanel();
         lHomeNav = new javax.swing.JLabel();
+        refreshIcon = new javax.swing.JLabel();
+        logoutIcon = new javax.swing.JLabel();
         tfLastName = new javax.swing.JTextField();
         tfFirstName = new javax.swing.JTextField();
         tfMiddleName = new javax.swing.JTextField();
@@ -102,6 +106,9 @@ public class Profile extends javax.swing.JFrame {
         lSearchNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lSearchNav.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lSearchNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lSearchNavMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lSearchNavMouseEntered(evt);
             }
@@ -136,6 +143,9 @@ public class Profile extends javax.swing.JFrame {
         lInvestmentNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         lInvestmentNav.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         lInvestmentNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lInvestmentNavMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 lInvestmentNavMouseEntered(evt);
             }
@@ -201,6 +211,32 @@ public class Profile extends javax.swing.JFrame {
 
         panelBackground.add(panelNavigation);
         panelNavigation.setBounds(0, 0, 850, 80);
+
+        refreshIcon.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        refreshIcon.setForeground(new java.awt.Color(255, 255, 255));
+        refreshIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Refresh Icon.png"))); // NOI18N
+        refreshIcon.setText("Refresh");
+        refreshIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        refreshIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                refreshIconMouseClicked(evt);
+            }
+        });
+        panelBackground.add(refreshIcon);
+        refreshIcon.setBounds(0, 80, 80, 30);
+
+        logoutIcon.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        logoutIcon.setForeground(new java.awt.Color(255, 255, 255));
+        logoutIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Logout Logo.png"))); // NOI18N
+        logoutIcon.setText("Log-out");
+        logoutIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        logoutIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoutIconMouseClicked(evt);
+            }
+        });
+        panelBackground.add(logoutIcon);
+        logoutIcon.setBounds(770, 80, 80, 30);
 
         tfLastName.setBackground(new java.awt.Color(102, 102, 102));
         tfLastName.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
@@ -433,7 +469,7 @@ public class Profile extends javax.swing.JFrame {
     
     public void loadData(){
         
-        FullInformation fi = new FullInformation();
+        Data fi = new Data();
         
         fi.getInformation();
         
@@ -510,7 +546,7 @@ public class Profile extends javax.swing.JFrame {
                 tempMunCit = tfMunicipalCity.getText().trim(),
                 tempRegion = tfRegion.getText().trim();
         
-        Function.updateAccount(
+        function.updateAccount(
                 tempPassword, tempFirstName, tempMiddleName, tempLastName, tempNameExtension, tempPurStr, tempMunCit, tempRegion
             );
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -521,6 +557,29 @@ public class Profile extends javax.swing.JFrame {
         home.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_lHomeNavMouseClicked
+
+    private void lInvestmentNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lInvestmentNavMouseClicked
+        // TODO add your handling code here:
+        Investment investment = new Investment();
+        investment.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lInvestmentNavMouseClicked
+
+    private void lSearchNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lSearchNavMouseClicked
+        // TODO add your handling code here:
+        Search search = new Search();
+        search.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_lSearchNavMouseClicked
+
+    private void refreshIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_refreshIconMouseClicked
+        loadData();
+    }//GEN-LAST:event_refreshIconMouseClicked
+
+    private void logoutIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutIconMouseClicked
+        UserSession.logOut();
+        this.dispose();
+    }//GEN-LAST:event_logoutIconMouseClicked
 
     /**
      * @param args the command line arguments
@@ -567,12 +626,14 @@ public class Profile extends javax.swing.JFrame {
     private javax.swing.JLabel lRegion;
     private javax.swing.JLabel lSearchNav;
     private javax.swing.JLabel lUsername;
+    private javax.swing.JLabel logoutIcon;
     private javax.swing.JPanel panelBackground;
     private javax.swing.JPanel panelHome;
     private javax.swing.JPanel panelInvestment;
     private javax.swing.JPanel panelNavigation;
     private javax.swing.JPanel panelSearch;
     private javax.swing.JRadioButton rbSeePassword;
+    private javax.swing.JLabel refreshIcon;
     private javax.swing.JTextField tfBirthdate;
     private javax.swing.JTextField tfEmail;
     private javax.swing.JTextField tfFirstName;

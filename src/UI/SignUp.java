@@ -14,6 +14,8 @@ public class SignUp extends javax.swing.JFrame {
     public SignUp() {
         initComponents();
     }
+    
+    private Function function = new Function();
    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -483,7 +485,7 @@ public class SignUp extends javax.swing.JFrame {
         if (isAccountValid()) {
             
             
-            Function.addAccount(
+            function.addAccount(
                     
                     username, email, password, phoneNumber,
                     firstName, middleName, lastName, nameExtension,

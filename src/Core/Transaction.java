@@ -12,7 +12,9 @@ import User.ManageUser;
 
 public class Transaction {
     
-    public static double getBalanceFrom(int ID){
+    RecordTransaction record = new RecordTransaction();
+    
+    public double getBalanceFrom(int ID){
         
         try (Connection connection = DBConnection.getConnection();) {
             
@@ -36,13 +38,8 @@ public class Transaction {
         
         return 0;
     }
-    
-    //for the PaymentMethod class
-    public static void paymentDeduction(){
-        
-    }
 
-    public static void sendMoney(double amount, int ID){
+    public void sendMoney(double amount, int ID){
         
         double currentBalance = getBalanceFrom(ManageUser.getUserID());
         
@@ -58,20 +55,15 @@ public class Transaction {
         try {
             
             connection = DBConnection.getConnection();
-            
             connection.setAutoCommit(false); //starts to turn off auto save just in case it fails
-            
             String SQLSendMoney = "UPDATE users_balance SET user_balance = user_balance + ? WHERE user_id = ?";
-            
             PreparedStatement sendingMoney = connection.prepareStatement(SQLSendMoney);
-            
             sendingMoney.setDouble(1, amount);
             sendingMoney.setInt(2, ID);
             
             int rowsUpdated = sendingMoney.executeUpdate();
             
             if (rowsUpdated == 0) {
-                
             //if there is no changes on the row that means the id or username is not existing
             JOptionPane.showMessageDialog(null, "Transaction cancelled, ID does not exist.");
             connection.rollback();
@@ -96,8 +88,7 @@ public class Transaction {
             JOptionPane.showMessageDialog(null, "Transaction Completed.");
             
             //record transaction -- database
-            Record record = new Record();
-            record.sendMoneyTransaction(ID, amount);
+            record.recordSend(ID, amount);
             //(sent to, amount)
             
         } catch (SQLException e) {
@@ -122,7 +113,7 @@ public class Transaction {
         
     }
     
-    public static void sendMoney(double amount, String username){
+    public void sendMoney(double amount, String username){
         
         double currentBalance = getBalanceFrom(ManageUser.getUserID());
         
@@ -170,7 +161,7 @@ public class Transaction {
         
     }
     
-    public static void withdrawCash(double amount){
+    public void withdrawCash(double amount){
         
         if (amount <= 0) {
             JOptionPane.showMessageDialog(null, "Failed to withdraw. Enter a positive value you cheeky bastard!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
@@ -187,15 +178,15 @@ public class Transaction {
         try (Connection connection = DBConnection.getConnection();){
             
             String SQLWithdraw = "UPDATE users_balance SET user_balance = user_balance - ? WHERE user_id = ?";
-            
             PreparedStatement withdrawing = connection.prepareStatement(SQLWithdraw);
-            
             withdrawing.setDouble(1, amount);
             withdrawing.setDouble(2, ManageUser.getUserID());
-            
             withdrawing.executeUpdate();
             
             JOptionPane.showMessageDialog(null, "Withdrawal Successful.");
+            
+            //--record transaction for database project
+            record.recordWithdraw(amount);
             
         } catch (SQLException e) {
             System.out.println("Error on database method(sendMoney username): " + e.getMessage());
@@ -203,7 +194,7 @@ public class Transaction {
         
     }
     
-    public static void depositCash(double amount){
+    public void depositCash(double amount){
         
         if (amount <= 0){
             JOptionPane.showMessageDialog(null, "Failed to deposit. Invalid amount!", "Transaction Cancelled", JOptionPane.ERROR_MESSAGE);
@@ -213,15 +204,14 @@ public class Transaction {
         try (Connection connection = DBConnection.getConnection();){
             
             String SQLDeposit = "UPDATE users_balance SET user_balance = user_balance + ? WHERE user_id = ?";
-            
             PreparedStatement depositing = connection.prepareStatement(SQLDeposit);
-            
             depositing.setDouble(1, amount);
             depositing.setDouble(2, ManageUser.getUserID());
             
             depositing.executeUpdate();
             
             JOptionPane.showMessageDialog(null, "Deposit Successful.", "Transaction Completed", JOptionPane.INFORMATION_MESSAGE);
+            record.recordDeposit(amount);
             
         } catch (SQLException e) {
             System.out.println("Error on database method(sendMoney username): " + e.getMessage());
@@ -229,7 +219,7 @@ public class Transaction {
         
     }
     
-    public static void investMoney(double amount){
+    public void investMoney(double amount){
         
         double currentBalance = getBalanceFrom(ManageUser.getUserID());
         
@@ -241,24 +231,21 @@ public class Transaction {
         try (Connection connection = DBConnection.getConnection();){
             
             String SQLDeducting = "UPDATE users_balance SET user_balance = user_balance - ? WHERE user_id = ?";
-            
             PreparedStatement investing = connection.prepareStatement(SQLDeducting);
-            
             investing.setDouble(1, amount);
             investing.setDouble(2, ManageUser.getUserID());
             
             investing.executeUpdate();
             
             String SQLAdding = "UPDATE users_balance SET user_investment = user_investment + ? WHERE user_id = ?";
-            
             PreparedStatement adding = connection.prepareStatement(SQLAdding);
-            
             adding.setDouble(1, amount);
             adding.setDouble(2, ManageUser.getUserID());
             
             adding.executeUpdate();
             
             JOptionPane.showMessageDialog(null, "Investment Successful.");
+            record.recordInvesting(amount);
             
         } catch (SQLException e) {
             System.out.println("Error on database method(sendMoney username): " + e.getMessage());

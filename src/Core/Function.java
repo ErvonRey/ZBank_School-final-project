@@ -67,7 +67,7 @@ public class Function {
         }
     }
 
-    public static void addAccount(
+    public void addAccount(
             
             String username, String email, String password, String phoneNumber,
             String firstName, String middleName, String lastName, String nameExtension,
@@ -143,7 +143,7 @@ public class Function {
         
     }
     
-    public static void updateAccount(
+    public void updateAccount(
             String password, String firstName, String middleName,
             String lastName, String nameExtension, String PurStr,
             String MunCit, String Region)
@@ -196,7 +196,7 @@ public class Function {
         
     }
     
-    public static void searchAccount(int ID){
+    public void searchAccount(int ID){
         
         String userID = "", username = "", firstName = "", middleName = "", lastName = "", nameExtension = ""
                , birthdate = "", PurStr = "", MunCit = "", Region = "", status = "", phoneNumber = "";
@@ -261,7 +261,7 @@ public class Function {
             
     }
     
-    public static void searchAccount(String tempUsername){
+    public void searchAccount(String tempUsername){
     
         try (Connection connection = DBConnection.getConnection();) {  
             
@@ -294,7 +294,7 @@ public class Function {
     
     }
     
-    public static void deleteAccount(){
+    public void deleteAccount(){
             
         int currentID = ManageUser.getUserID();
         
